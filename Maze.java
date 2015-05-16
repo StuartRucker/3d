@@ -1,10 +1,38 @@
+/*
+cells stores cells with visited status
+horiz stores horizontal walls (parallel to x-axis)
+verti stores vertical walls (parallel to y-axis)
+
+ 001122334455
+0 - - - - - - 
+0| |   |     |
+1         -   
+1| | |   |   |
+2     - -   - 
+2|   |   | | |
+3   -   -     
+3|     |   | |
+4 - -     -   
+4| |   |   | |
+5     - -     
+6|   |   | | |
+6   -     -   
+7|   | |     |
+7 -   - -     
+8|         | |
+8 - - - - - - 
+
+To get appropriate coordinate, for walls or cells, see example above.
+
+*/
+
 import java.util.Stack;
 import java.util.ArrayList;
 import java.awt.Point;
 
 public class Maze {
-	public static boolean WALL = false;
-	public static boolean VISITED = true;
+	static public final boolean WALL = false;
+	static public final boolean VISITED = true;
 
 	private int h, w;
 	private boolean[][] cells;
@@ -26,21 +54,16 @@ public class Maze {
 		int total = w * h;
 		Point none = new Point(-1, -1);
 		Point current = new Point((int) (Math.random() * w), (int) (Math.random() * h));
-		while (visited < total-1) {
+		while (visited < total - 1) {
 			Point random = getRandomNeighbor(current);
-			System.out.println(current+" "+random);
-			//System.out.print(visited + " ");
 			if (random.equals(none)) {
-				//System.out.print("pop ");
 				current = s.pop();
 			} else {
 				knock(current, random);
 				s.push(current);
-				//System.out.print(""+current.getX()+" "+current.getY());
 				current = random;
 				visited++;
 			}
-			//System.out.println();
 		}
 	}
 
@@ -57,8 +80,6 @@ public class Maze {
 		if (isIntact(tmp)) list.add(tmp);
 		tmp = new Point(x, y + 1);
 		if (isIntact(tmp)) list.add(tmp);
-
-		System.out.println(list);
 
 		if (list.size() == 0) return new Point(-1, -1);
 		return list.get((int) (Math.random() * list.size()));
@@ -103,16 +124,25 @@ public class Maze {
 			if (horiz[h][i] == WALL) System.out.print("-");
 			else System.out.print(" ");
 		}
+		System.out.println();
 	}
 
+	public boolean[][] getCells() {
+		return cells;
+	}
+
+	public boolean[][] getHoriz() {
+		return horiz;
+	}
+
+	public boolean[][] getVerti() {
+		return verti;
+	}
+
+	/*
 	public static void main(String[] args) {
-		//long startTime = System.nanoTime();
-		Maze m = new Maze(20, 30);
-		//Point current = new Point(10,20);
-		//Point random = m.getRandomNeighbor(current);
-		//m.knock(current, random);
-		//long endTime = System.nanoTime();
-		//System.out.println((endTime - startTime) / 1000000000f);
+		Maze m = new Maze(6,8);
 		m.print();
 	}
+	*/
 }
