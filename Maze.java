@@ -44,7 +44,7 @@ public class Maze {
 		w = width;
 		cells = new boolean[h][w];
 		horiz = new boolean[h + 1][w];
-		verti = new boolean[h][h + 1];
+		verti = new boolean[h][w + 1];
 		generateMaze();
 	}
 
@@ -141,7 +141,7 @@ public class Maze {
 
 	/*
 	public static void main(String[] args) {
-		Maze m = new Maze(6,8);
+		Maze m = new Maze(8,6);
 		m.print();
 	}
 	*/
