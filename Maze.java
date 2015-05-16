@@ -28,18 +28,18 @@ public class Maze {
 		Point current = new Point((int) (Math.random() * h), (int) (Math.random() * w));
 		while (visited < total) {
 			Point random = getRandomNeighbor(current);
-			System.out.print(visited + " ");
+			//System.out.print(visited + " ");
 			if (random.equals(none)) {
-				System.out.print("pop ");
+				//System.out.print("pop ");
 				current = s.pop();
 			} else {
 				knock(current, random);
 				s.push(current);
-				System.out.print(""+current.getX()+" "+current.getY());
+				//System.out.print(""+current.getX()+" "+current.getY());
 				current = random;
 				visited++;
 			}
-			System.out.println();
+			//System.out.println();
 		}
 	}
 
@@ -76,11 +76,28 @@ public class Maze {
 		cells[yc][xc] = VISITED;
 	}
 
-	public static void main(String[] args) {
-		long startTime = System.nanoTime();
-		Maze m = new Maze(1000, 900);
-		long endTime = System.nanoTime();
+	public void print() {
+		for (int j = 0; j < h; j++) {
+			for (int i = 0; i < w; i++) {
+				System.out.print(" ");
+				if (horiz[j][i] == WALL) System.out.print("-");
+				else System.out.print(" ");
+			}
+			System.out.println();
+			for (int i = 0; i <= w; i++) {
+				if (verti[j][i] == WALL) System.out.print("|");
+				else System.out.print(" ");
+				System.out.print(" ");
+			}
+			System.out.println();
+		}
+	}
 
-		System.out.println((endTime - startTime) / 1000000000f);
+	public static void main(String[] args) {
+		//long startTime = System.nanoTime();
+		Maze m = new Maze(20,30);
+		//long endTime = System.nanoTime();
+		//System.out.println((endTime - startTime) / 1000000000f);
+		m.print();
 	}
 }
