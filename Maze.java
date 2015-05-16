@@ -40,6 +40,7 @@ public class Maze {
 	private boolean[][] verti;
 
 	public Maze(int width, int height) {
+		//Creates maze with width w and height h
 		h = height;
 		w = width;
 		cells = new boolean[h][w];
@@ -49,6 +50,7 @@ public class Maze {
 	}
 
 	public void generateMaze() {
+		//Generates the maze using DFS
 		Stack<Point> s = new Stack<Point>();
 		int visited = 0;
 		int total = w * h;
@@ -68,6 +70,7 @@ public class Maze {
 	}
 
 	private Point getRandomNeighbor(Point p) {
+		//Returns a random neighbor that is "intact," and -1,-1 if none exist
 		ArrayList<Point> list = new ArrayList<Point>(4);
 		Point tmp;
 		int x = (int) p.getX();
@@ -86,6 +89,7 @@ public class Maze {
 	}
 
 	private boolean isIntact(Point p) {
+		//Returns true if intact, false if out of bounds or non intact
 		int x = (int) p.getX();
 		int y = (int) p.getY();
 		if (x < 0 || x >= w || y < 0 || y >= h) return false;
@@ -93,6 +97,7 @@ public class Maze {
 	}
 
 	private void knock(Point current, Point random) {
+		//Knocks down wall between current and random, and marks current as visited
 		int xc = (int) current.getX();
 		int yc = (int) current.getY();
 		int xr = (int) random.getX();
@@ -104,27 +109,30 @@ public class Maze {
 		cells[yc][xc] = VISITED;
 	}
 
-	public void print() {
+	public String toString() {
+		//Returns string of ASCII representation of maze (see header)
+		String rtn = "";
 		for (int j = 0; j < h; j++) {
 			for (int i = 0; i < w; i++) {
-				System.out.print(" ");
-				if (horiz[j][i] == WALL) System.out.print("-");
-				else System.out.print(" ");
+				rtn += " ";
+				if (horiz[j][i] == WALL) rtn += "-";
+				else rtn += " ";
 			}
-			System.out.println();
+			rtn += "\n";
 			for (int i = 0; i <= w; i++) {
-				if (verti[j][i] == WALL) System.out.print("|");
-				else System.out.print(" ");
-				System.out.print(" ");
+				if (verti[j][i] == WALL) rtn += "|";
+				else rtn += " ";
+				rtn += " ";
 			}
-			System.out.println();
+			rtn += "\n";
 		}
 		for (int i = 0; i < w; i++) {
-			System.out.print(" ");
-			if (horiz[h][i] == WALL) System.out.print("-");
-			else System.out.print(" ");
+			rtn += " ";
+			if (horiz[h][i] == WALL) rtn += "-";
+			else rtn += " ";
 		}
-		System.out.println();
+		rtn += "\n";
+		return rtn;
 	}
 
 	public boolean[][] getCells() {
@@ -138,11 +146,12 @@ public class Maze {
 	public boolean[][] getVerti() {
 		return verti;
 	}
-
+	
 	/*
 	public static void main(String[] args) {
 		Maze m = new Maze(8,6);
-		m.print();
+		System.out.println(m);
 	}
 	*/
+
 }
