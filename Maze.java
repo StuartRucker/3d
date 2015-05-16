@@ -24,10 +24,11 @@ public class Maze {
 		Stack<Point> s = new Stack<Point>();
 		int visited = 0;
 		int total = w * h;
-		Point none = new Point(-1,-1);
-		Point current = new Point((int) (Math.random() * h), (int) (Math.random() * w));
-		while (visited < total) {
+		Point none = new Point(-1, -1);
+		Point current = new Point((int) (Math.random() * w), (int) (Math.random() * h));
+		while (visited < total-1) {
 			Point random = getRandomNeighbor(current);
+			System.out.println(current+" "+random);
 			//System.out.print(visited + " ");
 			if (random.equals(none)) {
 				//System.out.print("pop ");
@@ -48,13 +49,19 @@ public class Maze {
 		Point tmp;
 		int x = (int) p.getX();
 		int y = (int) p.getY();
-		if (isIntact(tmp = new Point(x-1,y))) list.add(tmp);
-		if (isIntact(tmp = new Point(x+1,y))) list.add(tmp);
-		if (isIntact(tmp = new Point(x,y-1))) list.add(tmp);
-		if (isIntact(tmp = new Point(x,y+1))) list.add(tmp);
+		tmp = new Point(x - 1, y);
+		if (isIntact(tmp)) list.add(tmp);
+		tmp = new Point(x + 1, y);
+		if (isIntact(tmp)) list.add(tmp);
+		tmp = new Point(x, y - 1);
+		if (isIntact(tmp)) list.add(tmp);
+		tmp = new Point(x, y + 1);
+		if (isIntact(tmp)) list.add(tmp);
 
-		if (list.size() == 0) return new Point(-1,-1);
-		return list.get((int) Math.random() * list.size());
+		System.out.println(list);
+
+		if (list.size() == 0) return new Point(-1, -1);
+		return list.get((int) (Math.random() * list.size()));
 	}
 
 	private boolean isIntact(Point p) {
@@ -69,10 +76,10 @@ public class Maze {
 		int yc = (int) current.getY();
 		int xr = (int) random.getX();
 		int yr = (int) random.getY();
-		if (xr == xc-1) horiz[yc][xc] = !WALL;
-		else if (xr == xc+1) horiz[yc][xc+1] = !WALL;
-		else if (yr == yc-1) verti[yc][xc] = !WALL;
-		else if (yr == yc+1) verti[yc+1][xc] = !WALL;
+		if (xr == xc - 1) verti[yc][xc] = !WALL;
+		else if (xr == xc + 1) verti[yc][xc + 1] = !WALL;
+		else if (yr == yc - 1) horiz[yc][xc] = !WALL;
+		else if (yr == yc + 1) horiz[yc + 1][xc] = !WALL;
 		cells[yc][xc] = VISITED;
 	}
 
@@ -91,11 +98,19 @@ public class Maze {
 			}
 			System.out.println();
 		}
+		for (int i = 0; i < w; i++) {
+			System.out.print(" ");
+			if (horiz[h][i] == WALL) System.out.print("-");
+			else System.out.print(" ");
+		}
 	}
 
 	public static void main(String[] args) {
 		//long startTime = System.nanoTime();
-		Maze m = new Maze(20,30);
+		Maze m = new Maze(20, 30);
+		//Point current = new Point(10,20);
+		//Point random = m.getRandomNeighbor(current);
+		//m.knock(current, random);
 		//long endTime = System.nanoTime();
 		//System.out.println((endTime - startTime) / 1000000000f);
 		m.print();
