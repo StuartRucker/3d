@@ -2,7 +2,6 @@
 cells stores cells with visited status
 horiz stores horizontal walls (parallel to x-axis)
 verti stores vertical walls (parallel to y-axis)
-
  001122334455
 0 - - - - - - 
 0| |   |     |
@@ -21,25 +20,28 @@ verti stores vertical walls (parallel to y-axis)
 7 -   - -     
 8|         | |
 8 - - - - - - 
-
 To get appropriate coordinate, for walls or cells, see example above.
-
 */
 
 import java.util.Stack;
 import java.util.ArrayList;
 import java.awt.Point;
 
-public class Maze {
+import org.lwjgl.opengl.GL11;
+
+public class Maze1 {
 	static public final boolean WALL = false;
 	static public final boolean VISITED = true;
+	
+	public final float WIDTH = 30;
+	public final float HEIGHT = 30; 
 
 	private int h, w;
 	private boolean[][] cells;
 	private boolean[][] horiz;
 	private boolean[][] verti;
 
-	public Maze(int width, int height) {
+	public Maze1(int width, int height) {
 		//Creates maze with width w and height h
 		h = height;
 		w = width;
@@ -146,12 +148,30 @@ public class Maze {
 	public boolean[][] getVerti() {
 		return verti;
 	}
-	
-	/*
-	public static void main(String[] args) {
-		Maze m = new Maze(8,6);
-		System.out.println(m);
+	public ArrayList<ScreenObj> getObj(){
+		ArrayList<ScreenObj> newWalls = new ArrayList<ScreenObj>();
+		for(int r = 0; r < horiz.length; r ++){
+			  for(int c = 0; c < horiz[0].length; c ++){
+				   if(horiz[r][c]){
+					  newWalls.add(new Wall(r*WIDTH, c*WIDTH,r*WIDTH,c*WIDTH + WIDTH,HEIGHT));
+				   }
+			   }
+		 }
+		for(int r = 0; r < verti.length; r ++){
+			  for(int c = 0; c < verti[0].length; c ++){
+				   if(verti[r][c]){
+					  newWalls.add(new Wall(r*WIDTH, c*WIDTH,r*WIDTH + WIDTH,c*WIDTH,HEIGHT));
+				   }
+			   }
+		 }
+		return newWalls;
 	}
-	*/
+	
+	
+	/*public static void main(String[] args) {
+		Maze m = new Maze(100,100);
+		System.out.println(m);
+	}*/
+	
 
 }
