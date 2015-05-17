@@ -1,8 +1,3 @@
-
-
-
-
-
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glColor3f;
@@ -44,19 +39,24 @@ public class WalkAround {
       GL11.glMatrixMode(GL11.GL_MODELVIEW);
       
       //initialize objects
-      Platform floor = new Platform(0,0,0,300,300,10);
+      Platform floor = new Platform(450,450,0,1000,1000,10);
       floor.setColor(1, 0, 1);
       floor.enableCheckers(true);
       floor.setColor2(1, 0, 0);
       r.add(floor);
       
+      Maze1 s = new Maze1(30,30);
+      	for(ScreenObj a:s.getObj()){
+      		r.add(a);
+      	}
+      /*
       for(int i = 0; i < 6; i ++){
     	  floor = new Platform(0,100 + i*100,15 + i*10,100,100,10);
           floor.setColor(0, 0, 1);
           floor.enableCheckers(true);
           floor.setColor2(1, 1, 1);
           r.add(floor);
-      }
+      }*/
       
 
       Player player = new Player(0,0,20,0,0,0);
