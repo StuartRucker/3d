@@ -11,8 +11,8 @@ public class Player {
     float [] horDeg = {10,0};
     public final static int LEFT = 0,RIGHT = 1,FORWARD = 2,BACK = 3;
     final float GRAVITY = .5f;
-	final float PLAYERHEIGHT = 15;
-	final float PLAYERJUMP = 6;
+	final float PLAYERHEIGHT = 40;
+	final float PLAYERJUMP = 13;
 	boolean lastCollisionZ = true;
 	boolean lastCollisionHor = true;
     float dev = 5; // 10/SPEED of player
@@ -68,7 +68,7 @@ public class Player {
 		lastCollisionZ = false;
 		
 		for(ScreenObj a: s){
-			if(a.isZCollision(player, playerVelocity, dimensions) || a.isZCollision(player, playerVelocity, dimensions)){
+			if(a.isZCollision(player, playerVelocity, dimensions) ){
 				playerVelocity[2] = 0;
 				lastCollisionZ = true;
 			}
