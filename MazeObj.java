@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
@@ -7,6 +8,10 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 public class MazeObj extends ScreenObj {
+
+	static public final int WIDTH = 30;
+	static public final int HEIGHT = 30;
+
 	Maze m;
 	ArrayList<Wall> list;
 	Texture texture;
@@ -42,7 +47,13 @@ public class MazeObj extends ScreenObj {
 			}
 		}
 	}
-	public void draw() {}
-	public boolean isZCollision(float[] coord, float velocity[], float dimensions[]) {}
-	public void horCollision(float[] coord, float velocity[], float dimensions[]) {}
+	public void draw() {
+
+	}
+	public boolean isZCollision(float[] coord, float velocity[], float dimensions[]) {
+
+	}
+	public void horCollision(float[] coord, float velocity[], float dimensions[]) {
+		//Get coordinates and only check if wall exists around it
+	}
 }
