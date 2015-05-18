@@ -17,7 +17,8 @@ import org.lwjgl.util.glu.GLU;
  
 public class WalkAround {
 	final int width = 800;
-	int height = 600;
+	final int height = 600;
+	float mxspd = -.005f;
 
 	
 	ArrayList<ScreenObj> r = new ArrayList<ScreenObj>();
@@ -38,6 +39,10 @@ public class WalkAround {
       GLU.gluPerspective(60,((float)width/(float)height),1,1500);
       GL11.glMatrixMode(GL11.GL_MODELVIEW);
       
+      Mouse.setGrabbed(true);
+      
+      
+      
       //initialize objects
       Platform floor = new Platform(450,450,0,1000,1000,10);
       floor.setColor(1, 0, 1);
@@ -45,7 +50,7 @@ public class WalkAround {
       floor.setColor2(1, 0, 0);
       r.add(floor);
       
-      Maze1 s = new Maze1(30,30);
+      Maze s = new Maze(30,30);
       	for(ScreenObj a:s.getObj()){
       		r.add(a);
       	}
@@ -91,7 +96,7 @@ public class WalkAround {
 			}
 		}
 		
-		player.rotate((float) ((width/2-Mouse.getX())/10000.0));
+		player.rotate((float) (Mouse.getDX())*mxspd);
 		for(ScreenObj a: r){
 			a.draw();
 		}
