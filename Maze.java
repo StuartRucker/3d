@@ -29,6 +29,10 @@ import java.awt.Point;
 
 import org.lwjgl.opengl.GL11;
 
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
+
 public class Maze1 {
 	static public final boolean WALL = false;
 	static public final boolean VISITED = true;
@@ -40,6 +44,15 @@ public class Maze1 {
 	private boolean[][] cells;
 	private boolean[][] horiz;
 	private boolean[][] verti;
+	
+	public Texture texture = null;
+	
+	try {
+		texture = TextureLoader.getTexture("JPG", ResourceLoader.getResourceAsStream("/maze.jpg"));
+	}
+	catch (IOException e) {
+		e.printStackTrace();
+	}
 
 	public Maze1(int width, int height) {
 		//Creates maze with width w and height h
@@ -153,14 +166,14 @@ public class Maze1 {
 		for(int r = 0; r < horiz.length; r ++){
 			  for(int c = 0; c < horiz[0].length; c ++){
 				   if(horiz[r][c]){
-					  newWalls.add(new Wall(r*WIDTH, c*WIDTH,r*WIDTH,c*WIDTH + WIDTH,HEIGHT));
+					  newWalls.add(new Wall(r*WIDTH, c*WIDTH,r*WIDTH,c*WIDTH + WIDTH,HEIGHT, texture));
 				   }
 			   }
 		 }
 		for(int r = 0; r < verti.length; r ++){
 			  for(int c = 0; c < verti[0].length; c ++){
 				   if(verti[r][c]){
-					  newWalls.add(new Wall(r*WIDTH, c*WIDTH,r*WIDTH + WIDTH,c*WIDTH,HEIGHT));
+					  newWalls.add(new Wall(r*WIDTH, c*WIDTH,r*WIDTH + WIDTH,c*WIDTH,HEIGHT, texture));
 				   }
 			   }
 		 }
