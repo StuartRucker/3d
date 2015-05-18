@@ -3,23 +3,23 @@ cells stores cells with visited status
 horiz stores horizontal walls (parallel to x-axis)
 verti stores vertical walls (parallel to y-axis)
  001122334455
-0 - - - - - - 
+0 - - - - - -
 0| |   |     |
-1         -   
+1         -
 1| | |   |   |
-2     - -   - 
+2     - -   -
 2|   |   | | |
-3   -   -     
+3   -   -
 3|     |   | |
-4 - -     -   
+4 - -     -
 4| |   |   | |
-5     - -     
+5     - -
 6|   |   | | |
-6   -     -   
+6   -     -
 7|   | |     |
-7 -   - -     
+7 -   - -
 8|         | |
-8 - - - - - - 
+8 - - - - - -
 To get appropriate coordinate, for walls or cells, see example above.
 */
 
@@ -28,35 +28,18 @@ import java.util.ArrayList;
 import java.awt.Point;
 import java.io.IOException;
 
-import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
-
 public class Maze {
 	static public final boolean WALL = false;
 	static public final boolean VISITED = true;
-	
-	public final float WIDTH = 30;
-	public final float HEIGHT = 30; 
 
 	private int h, w;
 	private boolean[][] cells;
 	private boolean[][] horiz;
 	private boolean[][] verti;
-	
-	Texture texture = null;
+
 
 	public Maze(int width, int height) {
-		//Creates maze with width w and height h
-		
-		try {
-			texture = TextureLoader.getTexture("JPG", ResourceLoader.getResourceAsStream("/maze.jpg"));
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		//Creates maze with width w and height
 		h = height;
 		w = width;
 		cells = new boolean[h][w];
@@ -162,30 +145,14 @@ public class Maze {
 	public boolean[][] getVerti() {
 		return verti;
 	}
-	public ArrayList<ScreenObj> getObj(){
-		ArrayList<ScreenObj> newWalls = new ArrayList<ScreenObj>();
-		for(int r = 0; r < horiz.length; r ++){
-			  for(int c = 0; c < horiz[0].length; c ++){
-				   if(horiz[r][c]){
-					  newWalls.add(new Wall(r*WIDTH, c*WIDTH,r*WIDTH,c*WIDTH + WIDTH,HEIGHT, texture));
-				   }
-			   }
-		 }
-		for(int r = 0; r < verti.length; r ++){
-			  for(int c = 0; c < verti[0].length; c ++){
-				   if(verti[r][c]){
-					  newWalls.add(new Wall(r*WIDTH, c*WIDTH,r*WIDTH + WIDTH,c*WIDTH,HEIGHT, texture));
-				   }
-			   }
-		 }
-		return newWalls;
+
+	public int getListSize() {
+		return horiz.length * horiz[0].length + verti.length * verti[0].length;
 	}
-	
-	
+
 	/*public static void main(String[] args) {
 		Maze m = new Maze(100,100);
 		System.out.println(m);
 	}*/
-	
 
 }
