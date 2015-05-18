@@ -26,14 +26,14 @@ To get appropriate coordinate, for walls or cells, see example above.
 import java.util.Stack;
 import java.util.ArrayList;
 import java.awt.Point;
+import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
-
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-public class Maze1 {
+public class Maze {
 	static public final boolean WALL = false;
 	static public final boolean VISITED = true;
 	
@@ -45,17 +45,18 @@ public class Maze1 {
 	private boolean[][] horiz;
 	private boolean[][] verti;
 	
-	public Texture texture = null;
-	
-	try {
-		texture = TextureLoader.getTexture("JPG", ResourceLoader.getResourceAsStream("/maze.jpg"));
-	}
-	catch (IOException e) {
-		e.printStackTrace();
-	}
+	Texture texture = null;
 
-	public Maze1(int width, int height) {
+	public Maze(int width, int height) {
 		//Creates maze with width w and height h
+		
+		try {
+			texture = TextureLoader.getTexture("JPG", ResourceLoader.getResourceAsStream("/maze.jpg"));
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		h = height;
 		w = width;
 		cells = new boolean[h][w];
