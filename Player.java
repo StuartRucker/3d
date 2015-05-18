@@ -57,11 +57,11 @@ public class Player {
     }
    
 	public void rotate(float deg){
-		if(Math.abs(deg) < .5 && Math.abs(deg) > .01){
+		//if(Math.abs(deg) < .5 && Math.abs(deg) > .01){
 			float temp = horDeg[0];
 			horDeg[0] = (float) (horDeg[0] * Math.cos(deg) - horDeg[1] * Math.sin(deg));
 			horDeg[1] = (float) (temp * Math.sin(deg) + horDeg[1] * Math.cos(deg));
-		}
+		//}
 	}
 	public void physics(ArrayList<ScreenObj> s){
 		playerVelocity[2] -= GRAVITY;
