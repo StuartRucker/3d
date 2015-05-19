@@ -24,7 +24,7 @@ public class MazeObj extends ScreenObj {
 			hasTexture = true;
 		} catch (Exception e) {
 			hasTexture = false;
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		this.m = m;
