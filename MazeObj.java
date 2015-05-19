@@ -47,13 +47,28 @@ public class MazeObj extends ScreenObj {
 			}
 		}
 	}
+
 	public void draw() {
-
+		for (Wall w : list) {
+			w.draw();
+		}
 	}
+
 	public boolean isZCollision(float[] coord, float velocity[], float dimensions[]) {
-
+		return false;
 	}
+
 	public void horCollision(float[] coord, float velocity[], float dimensions[]) {
 		//Get coordinates and only check if wall exists around it
+		//check if in z range
+		if(coord[2] >= 0 && coord[2] - dimensions[2] <= HEIGHT ){
+			//check for x collis
+			int xpos = (int) coord[0]/WIDTH;
+			int ypos = (int) coord[1]/HEIGHT;
+
+
+			//check for y collis
+			
+		}
 	}
 }
