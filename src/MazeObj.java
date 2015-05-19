@@ -20,7 +20,7 @@ public class MazeObj extends ScreenObj {
 	public MazeObj(Maze m) {
 
 		try {
-			texture = TextureLoader.getTexture("JPG", ResourceLoader.getResourceAsStream("/maze.jpg"));
+			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("../assets/texture.png"));
 			hasTexture = true;
 		} catch (Exception e) {
 			hasTexture = false;
