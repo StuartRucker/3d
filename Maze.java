@@ -46,9 +46,10 @@ public class Maze {
 		horiz = new boolean[h + 1][w];
 		verti = new boolean[h][w + 1];
 		generateMaze();
+		addOpenings();
 	}
 
-	public void generateMaze() {
+	private void generateMaze() {
 		//Generates the maze using DFS
 		Stack<Point> s = new Stack<Point>();
 		int visited = 0;
@@ -65,6 +66,19 @@ public class Maze {
 				current = random;
 				visited++;
 			}
+		}
+	}
+
+	private void addOpenings() {
+		if (horiz[1][0] == !WALL) {
+			horiz[0][0] = !WALL;
+		} else {
+			verti[0][0] = !WALL;
+		}
+		if (horiz[h - 1][w - 1] == !WALL) {
+			horiz[h][w - 1] = !WALL;
+		} else {
+			verti[h - 1][w] = !WALL;
 		}
 	}
 
@@ -147,7 +161,7 @@ public class Maze {
 	}
 
 	public int getListSize() {
-		return horiz.length * horiz[0].length + verti.length * verti[0].length;
+		return 2 * h * w + w + h;
 	}
 
 	/*public static void main(String[] args) {
