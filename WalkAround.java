@@ -51,9 +51,7 @@ public class WalkAround {
       r.add(floor);
       
       Maze s = new Maze(30,30);
-      	for(ScreenObj a:s.getObj()){
-      		r.add(a);
-      	}
+      r.add(new MazeObj(s));
       /*
       for(int i = 0; i < 6; i ++){
     	  floor = new Platform(0,100 + i*100,15 + i*10,100,100,10);

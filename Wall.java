@@ -12,6 +12,7 @@ public class Wall extends ScreenObj {
 	float width;
 	float color[] = new float[3];
 	private Texture texture;
+	boolean hasTexture;
 	
 	public Wall(float x1, float y1, float x2, float y2, float h, Texture tex){
 		start[0] = x1;
@@ -23,11 +24,26 @@ public class Wall extends ScreenObj {
 			color[i] = (float) (Math.random());
 		}
 		texture = tex;
+		hasTexture = true;
+	}
+
+	public Wall(float x1, float y1, float x2, float y2, float h){
+		start[0] = x1;
+		start[1] = y1;
+		end[0] = x2;
+		end[1] = y2;
+		height = h;
+		for(int i = 0; i < 3; i ++){
+			color[i] = (float) (Math.random());
+		}
+		hasTexture = false;
 	}
 	public void draw() {
 		glColor3f(color[0],color[1],color[2]);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
+		if(hasTexture){
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
+		}
 		GL11.glBegin(GL11.GL_QUADS);
 			GL11.glTexCoord2f(0,1);
 			GL11.glVertex3f(start[0],start[1],0);
@@ -38,7 +54,9 @@ public class Wall extends ScreenObj {
 			GL11.glTexCoord2f(0,0);
 			GL11.glVertex3f(start[0],start[1],height);
 		GL11.glEnd();
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		if(hasTexture){
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+		}
 		
 	}
 	public boolean isZCollision(float[] coord, float[] velocity,

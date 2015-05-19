@@ -15,13 +15,16 @@ public class MazeObj extends ScreenObj {
 	Maze m;
 	ArrayList<Wall> list;
 	Texture texture;
+	boolean hasTexture;
 
 	public MazeObj(Maze m) {
 
 		try {
 			texture = TextureLoader.getTexture("JPG", ResourceLoader.getResourceAsStream("/maze.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
+			hasTexture = true;
+		} catch (Exception e) {
+			hasTexture = false;
+			//e.printStackTrace();
 		}
 
 		this.m = m;
@@ -35,14 +38,22 @@ public class MazeObj extends ScreenObj {
 		for (int r = 0; r < horiz.length; r ++) {
 			for (int c = 0; c < horiz[0].length; c ++) {
 				if (horiz[r][c] == Maze.WALL) {
-					list.add(new Wall(r * WIDTH, c * WIDTH, r * WIDTH, c * WIDTH + WIDTH, HEIGHT, texture));
+					if(hasTexture){
+						list.add(new Wall(r * WIDTH, c * WIDTH, r * WIDTH, c * WIDTH + WIDTH, HEIGHT, texture));
+					}else{
+						list.add(new Wall(r * WIDTH, c * WIDTH, r * WIDTH, c * WIDTH + WIDTH, HEIGHT));
+					}
 				}
 			}
 		}
 		for (int r = 0; r < verti.length; r ++) {
 			for (int c = 0; c < verti[0].length; c ++) {
 				if (verti[r][c] == Maze.WALL) {
-					list.add(new Wall(r * WIDTH, c * WIDTH, r * WIDTH + WIDTH, c * WIDTH, HEIGHT, texture));
+					if(hasTexture){
+						list.add(new Wall(r * WIDTH, c * WIDTH, r * WIDTH + WIDTH, c * WIDTH, HEIGHT, texture));
+					}else{
+						list.add(new Wall(r * WIDTH, c * WIDTH, r * WIDTH + WIDTH, c * WIDTH, HEIGHT));
+					}
 				}
 			}
 		}
