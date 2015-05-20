@@ -39,8 +39,12 @@ public class Wall extends ScreenObj {
 		hasTexture = false;
 	}
 	public void draw() {
-		glColor3f(color[0],color[1],color[2]);
+		
+		if(!hasTexture){
+			glColor3f(color[0],color[1],color[2]);
+		}
 		if(hasTexture){
+			glColor3f(1f,1f,1f);
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
 		}
