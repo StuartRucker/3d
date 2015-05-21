@@ -154,6 +154,14 @@ public class Wall extends ScreenObj {
 						velocity[1] = 0;
 					}
 				}
+
+				//ToDo
+
+				//check for diagonal entry
+				float xNext = coord[0] + velocity[0];
+				float yNext = coord[1] + velocity[1];
+				//if(Math.abs(coord[0] - start[0]) > WIDTH/2 && ((xNext)||()) ){
+				//}
 			}
 			
 			//check for wall which extends in x direction
