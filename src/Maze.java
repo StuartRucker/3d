@@ -29,8 +29,8 @@ import java.awt.Point;
 import java.io.IOException;
 
 public class Maze {
-	static public final boolean WALL = false;
-	static public final boolean VISITED = true;
+	public static final boolean WALL = false;
+	public static final boolean VISITED = true;
 
 	private int h, w;
 	private boolean[][] cells;
