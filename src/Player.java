@@ -8,7 +8,8 @@ public class Player {
 	private float[] player = {0, 0, 20};
 	private float playerVelocity[] = {0, 0, 0};
 	private float dimensions[] = {10, 10, 30};
-	private float [] horDeg = {10, 0};
+	private float[] horDeg = {10, 0};
+	private float verDeg = 0;
 	public static final int LEFT = 0, RIGHT = 1, FORWARD = 2, BACK = 3;
 	public static final float GRAVITY = .5f;
 	public static final float PLAYERHEIGHT = 40;
@@ -17,6 +18,9 @@ public class Player {
 	private boolean lastCollisionHor = true;
 	private float dev = 5; // 10/SPEED of player
 
+	public Player() {
+		this(15, 15, 20, 0, 0, 0);
+	}
 
 	public Player(float a, float b, float c, float d, float e, float f) {
 		player[0] = a;
@@ -53,16 +57,21 @@ public class Player {
 			playerVelocity[2] += PLAYERJUMP;
 	}
 	public void look() {
-		GLU.gluLookAt(player[0], player[1], player[2] + PLAYERHEIGHT, player[0] + horDeg[0] * 10, player[1] + horDeg[1] * 10, player[2] - 20, 0, 0, 1);
+		GLU.gluLookAt(player[0], player[1], player[2] + PLAYERHEIGHT, player[0] + horDeg[0] * 10, player[1] + horDeg[1] * 10, player[2]+verDeg*100, 0, 0, 1);
 	}
 
-	public void rotate(float deg) {
+	public void rotatex(float deg) {
 		//if(Math.abs(deg) < .5 && Math.abs(deg) > .01){
 		float temp = horDeg[0];
 		horDeg[0] = (float) (horDeg[0] * Math.cos(deg) - horDeg[1] * Math.sin(deg));
 		horDeg[1] = (float) (temp * Math.sin(deg) + horDeg[1] * Math.cos(deg));
 		//}
 	}
+
+	public void rotatey(float deg) {
+		verDeg = verDeg - (float)Math.sin(deg);
+	}
+
 	public void physics(ArrayList<ScreenObj> s) {
 		playerVelocity[2] -= GRAVITY;
 		lastCollisionZ = false;

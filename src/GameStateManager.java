@@ -28,6 +28,7 @@ public class GameStateManager {
 	private static ArrayList<ScreenObj> r;
 	private static Player player;
 	private static float mxspd = -.005f;
+	private static float myspd = -.005f;
 	private static int width = 800;
 	private static int height = 600;
 
@@ -48,7 +49,7 @@ public class GameStateManager {
 		r.add(floor);
 		Maze s = new Maze(30, 30);
 		r.add(new MazeObj(s));
-		player = new Player(0, 0, 20, 0, 0, 0);
+		player = new Player();
 
 		//title setup
 		try {
@@ -112,7 +113,8 @@ public class GameStateManager {
 			}
 		}
 
-		player.rotate((float) (Mouse.getDX()) * mxspd);
+		player.rotatex((float) (Mouse.getDX()) * mxspd);
+		player.rotatey((float) (Mouse.getDY()) * myspd);
 		for (ScreenObj a : r) {
 			a.draw();
 		}
