@@ -2,6 +2,9 @@ import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glVertex3f;
 
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 
 public class Platform extends ScreenObj {
@@ -12,19 +15,53 @@ public class Platform extends ScreenObj {
 	private float colR, colG, colB, colR2, colG2, colB2;
 	private boolean checkers = false;
 	private int checkerWidth;
+	private Texture texture;
+	private boolean hasTexture;
 
-	public Platform(float x, float y, float z, float Width, float Length, float height) {
+	public Platform(float x, float y, float z, float width, float length, float height) {
 		coordinates[0] = x;
 		coordinates[1] = y;
 		coordinates[2] = z;
-		w = Width;
-		l = Length;
+		w = width;
+		l = length;
 		colR = 1;
 		colG = 1;
 		colB = 0;
 		this.h = height;
+		try {
+			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("../assets/platform.png"));
+			hasTexture = true;
+		} catch (Exception e) {
+			hasTexture = false;
+			//e.printStackTrace();
+		}
 	}
 	public void draw() {
+		if (!hasTexture) {
+			glColor3f(colR, colG, colB);
+			GL11.glBegin(GL11.GL_QUADS);
+				glVertex3f(coordinates[0] + w / 2, coordinates[1] + l / 2, coordinates[2] + h / 2);
+				glVertex3f(coordinates[0] - w / 2, coordinates[1] + l / 2, coordinates[2] + h / 2);
+				glVertex3f(coordinates[0] - w / 2, coordinates[1] - l / 2, coordinates[2] + h / 2);
+				glVertex3f(coordinates[0] + w / 2, coordinates[1] - l / 2, coordinates[2] + h / 2);
+			GL11.glEnd();
+		}
+		if (hasTexture) {
+			glColor3f(1f, 1f, 1f);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
+			GL11.glBegin(GL11.GL_QUADS);
+				GL11.glTexCoord2f(0, 0);
+				glVertex3f(coordinates[0] + w / 2, coordinates[1] + l / 2, coordinates[2] + h / 2);
+				GL11.glTexCoord2f(0, 1);
+				glVertex3f(coordinates[0] - w / 2, coordinates[1] + l / 2, coordinates[2] + h / 2);
+				GL11.glTexCoord2f(1, 0);
+				glVertex3f(coordinates[0] - w / 2, coordinates[1] - l / 2, coordinates[2] + h / 2);
+				GL11.glTexCoord2f(1, 1);
+				glVertex3f(coordinates[0] + w / 2, coordinates[1] - l / 2, coordinates[2] + h / 2);
+			GL11.glEnd();
+		}
+		/*
 		if (!checkers) {
 			glColor3f(colR, colG, colB);
 			GL11.glBegin(GL11.GL_QUADS);
@@ -93,7 +130,7 @@ public class Platform extends ScreenObj {
 				GL11.glEnd();
 
 			}
-		}
+		}*/
 
 
 	}
