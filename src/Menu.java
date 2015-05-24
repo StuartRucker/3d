@@ -50,7 +50,7 @@ public class Menu{
 		//GL11.glEnable(GL11.GL_TEXTURE_2D);
 		//GL11.glBindTexture(GL11.GL_TEXTURE_2D, menu.getTextureID());
 		
-
+		//resume button
 		float top = height-200;
 		GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(width/2-BAR_WIDTH/2, top);
@@ -64,6 +64,7 @@ public class Menu{
 		definingVerts[0][3] = top+BAR_HEIGHT;
 
 
+		//menu button
 		float top2 = top - BAR_HEIGHT-BUFFER;
 		GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(width/2-BAR_WIDTH/2, top2);
@@ -84,7 +85,7 @@ public class Menu{
 		glColor3f(1f/(float)secondsLeft, 1f, 1f);
 
 		
-
+		//should display the seconds left
 		float top = height-200;
 		GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(width/2-BAR_WIDTH/2, top);
@@ -112,6 +113,7 @@ public class Menu{
 		definingVerts[2][3] = top;
 
 		
+		//back to title
 		w -= 200;
 		h = 150;
 		top = top-2*h;
