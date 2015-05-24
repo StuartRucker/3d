@@ -174,6 +174,7 @@ public class GameStateManager {
 				setState(PLAY);
 			}
 		}
+
 		if(state == WIN){
 			make2D();
 			menu.drawWin();
@@ -188,6 +189,10 @@ public class GameStateManager {
 			}
 		}
 		if(state == PLAY){
+			//draw time left
+			make2D();
+			Menu.drawPlay();
+			make3D();
 			//handle playerPhysics
 			player.physics(r);
 		}

@@ -131,6 +131,10 @@ public class Menu{
 
 		lastLoop = GameStateManager.WIN;
 	}
+	public void drawPlay(){
+		int secondsTaken = gamePlay.getGameTime();
+		//display the time is is taking you to solve the maze in a corner of screen
+	}
 	public int getMouseClicked(float x, float y){
 		if(lastLoop == GameStateManager.PAUSE){
 			if(x > definingVerts[0][0] && y > definingVerts[0][1] && x < definingVerts[0][2] && y < definingVerts[0][3]){
