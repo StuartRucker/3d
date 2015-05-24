@@ -14,13 +14,16 @@ public class MazeObj extends ScreenObj {
 
 	Maze m;
 	ArrayList<Wall> list;
-	Texture texture;
+	static public Texture texture;
+	static public Texture end;
 	boolean hasTexture;
+	WinWall winWall;
 
 	public MazeObj(Maze m) {
 
 		try {
 			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("../assets/texture.png"));
+			end = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("../assets/end.png"));
 			hasTexture = true;
 		} catch (Exception e) {
 			hasTexture = false;
@@ -56,6 +59,17 @@ public class MazeObj extends ScreenObj {
 					}
 				}
 			}
+		}
+		if(m.getOpenings(false) == true){
+			int r = verti.length-1;
+			int c = verti[0].length-1;
+			winWall = new WinWall(r * WIDTH, c * WIDTH, r * WIDTH + WIDTH, c * WIDTH, HEIGHT*2,end);
+			list.add((Wall)winWall);
+		}else{
+			int r = horiz.length-1;
+			int c = horiz[0].length-1;
+			winWall = new WinWall(r * WIDTH, c * WIDTH, r * WIDTH, c * WIDTH + WIDTH, HEIGHT*2, end);
+			list.add((Wall)winWall);
 		}
 	}
 
@@ -99,5 +113,8 @@ public class MazeObj extends ScreenObj {
 			}
 
 		}
+		winWall.horCollision(coord,velocity,dimensions);
 	}
 }
+
+

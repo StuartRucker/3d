@@ -16,10 +16,10 @@ public class Player {
 	public static final float PLAYERJUMP = 13;
 	private boolean lastCollisionZ = true;
 	private boolean lastCollisionHor = true;
-	private float dev = 5; // 10/SPEED of player
+	private float dev = 1; // 10/SPEED of player
 
 	public Player() {
-		this(15, 15, 20, 0, 0, 0);
+		this(0, 15, 20, 0, 0, 0);
 	}
 
 	public Player(float a, float b, float c, float d, float e, float f) {
@@ -94,6 +94,8 @@ public class Player {
 				player[i] = 0;
 				playerVelocity[i] = 0;
 			}
+			player[0] = 0;
+			player[1] = 15;
 			player[2] = PLAYERHEIGHT + 1;
 		}
 

@@ -6,14 +6,14 @@ import org.newdawn.slick.opengl.Texture;
 
 
 public class Wall extends ScreenObj {
-	private float height;
-	private float[] start = new float[2];
-	private float[] end = new float[2];
-	private float vertices[][] = new float[4][2];
-	private float color[] = new float[3];
-	private Texture texture;
-	private boolean hasTexture;
-	private final float WIDTH = 5;
+	public float height;
+	public  float[] start = new float[2];
+	public float[] end = new float[2];
+	public float vertices[][] = new float[4][2];
+	public float color[] = new float[3];
+	public Texture texture;
+	public boolean hasTexture;
+	public final float WIDTH = 5;
 
 	public Wall(float x1, float y1, float x2, float y2, float h, Texture tex) {
 
@@ -105,7 +105,7 @@ public class Wall extends ScreenObj {
 		}
 
 		//draw roof
-		glColor3f(0, 0, 0);
+		
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0, 1);
 		GL11.glVertex3f(vertices[0][0], vertices[0][1], height);
@@ -126,7 +126,8 @@ public class Wall extends ScreenObj {
 	}
 	public boolean isZCollision(float[] coord, float[] velocity,
 	                            float[] dimensions) {
-		// TODO Auto-generated method stub
+
+		
 		return false;
 	}
 	public void horCollision(float[] coord, float[] velocity, float[] dimensions) {
@@ -191,6 +192,9 @@ public class Wall extends ScreenObj {
 
 
 
+	}
+	public float dist(float x1, float y1, float x2, float y2){
+		return (float) Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
 	}
 }
 

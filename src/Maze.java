@@ -36,6 +36,7 @@ public class Maze {
 	private boolean[][] cells;
 	private boolean[][] horiz;
 	private boolean[][] verti;
+	private boolean startOpening, endOpening; //true denotes it is vertical
 
 
 	public Maze(int width, int height) {
@@ -70,15 +71,19 @@ public class Maze {
 	}
 
 	private void addOpenings() {
-		if (horiz[1][0] == !WALL) {
+		/*if (horiz[1][0] == !WALL) {
 			horiz[0][0] = !WALL;
+			startOpening = false;
 		} else {
 			verti[0][0] = !WALL;
-		}
+			startOpening = true;
+		}*/
 		if (horiz[h - 1][w - 1] == !WALL) {
 			horiz[h][w - 1] = !WALL;
+			endOpening = false;
 		} else {
 			verti[h - 1][w] = !WALL;
+			endOpening = true;
 		}
 	}
 
@@ -162,6 +167,13 @@ public class Maze {
 
 	public int getListSize() {
 		return 2 * h * w + w + h;
+	}
+	public boolean getOpenings(boolean startOrEnd){
+		if(startOrEnd){
+			return startOpening;
+		}else{
+			return endOpening;
+		}
 	}
 
 	/*public static void main(String[] args) {

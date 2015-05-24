@@ -16,8 +16,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 public class WalkAround {
-	private final int width = 800;
-	private final int height = 600;//if you change this, also change code in
+	public static final int width = 800;
+	public static final int height = 600;//if you change this, also change code in
 
 	ArrayList<ScreenObj> r = new ArrayList<ScreenObj>();
 
