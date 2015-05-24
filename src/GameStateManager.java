@@ -191,7 +191,7 @@ public class GameStateManager {
 		if(state == PLAY){
 			//draw time left
 			make2D();
-			Menu.drawPlay();
+			menu.drawPlay();
 			make3D();
 			//handle playerPhysics
 			player.physics(r);
