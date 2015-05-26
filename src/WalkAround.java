@@ -25,6 +25,7 @@ public class WalkAround {
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.create();
+			Textures.init();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 			System.exit(0);

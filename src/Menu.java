@@ -34,10 +34,13 @@ public class Menu{
 	public int height = WalkAround.height;
 	public GamePlay gamePlay;
 	public int lastLoop;
+	public PowerUpManager powerup;
 
 	float definingVerts[][] = new float[4][4];
-	public Menu(GamePlay g){
+	public Menu(GamePlay g, PowerUpManager p){
 		gamePlay= g;
+		powerup = p;
+
 		try{
 			//pause = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("../assets/pause.png"));
 			//menu = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("../assets/menu.png"));
@@ -152,5 +155,15 @@ public class Menu{
 			}
 		}
 		return -1;
+	}
+	public void drawPowerUp	(){
+		float timeLeft = powerup.getTimeLeft();
+		glColor3f(0f, 1f, 0f);
+		GL11.glBegin(GL11.GL_QUADS);
+			GL11.glVertex2f(0, height);
+			GL11.glVertex2f(0, height- BAR_HEIGHT);
+			GL11.glVertex2f(timeLeft*30, height- BAR_HEIGHT);
+			GL11.glVertex2f(timeLeft*30, height);
+		GL11.glEnd();
 	}
 }	

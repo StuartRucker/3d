@@ -80,13 +80,38 @@ public class MazeObj extends ScreenObj {
 	}
 
 	public boolean isZCollision(float[] coord, float velocity[], float dimensions[]) {
+		//check for x collis
+		int xpos = (int) coord[0] / WIDTH;
+		int ypos = (int) coord[1] / HEIGHT;
+
+		int wallsAroundx[] = { -1, 0, 1};
+		int wallsAroundy[]  = { -1, 0, 1};
+		for (int i = 0; i < wallsAroundy.length; i ++) {
+			for (int a = 0; a < wallsAroundx.length; a ++) {
+				if (((xpos + wallsAroundx[i]) < m.getHoriz().length && (xpos + wallsAroundx[i]) >= 0 && (ypos + wallsAroundy[a]) >= 0 && (ypos + wallsAroundy[a]) < m.getHoriz()[0].length )) {
+					if (m.getHoriz()[(xpos + wallsAroundx[i])][(ypos + wallsAroundy[a])] == Maze.WALL) {
+						Wall checkMe = new Wall((xpos + wallsAroundx[i]) * WIDTH, (ypos + wallsAroundy[a]) * WIDTH,
+						                        (xpos + wallsAroundx[i]) * WIDTH, (ypos + wallsAroundy[a]) * WIDTH + WIDTH, HEIGHT);
+						if(checkMe.isZCollision(coord, velocity, dimensions)) return true;
+					}
+				}
+				if (((xpos + wallsAroundx[i]) < m.getVerti().length && (xpos + wallsAroundx[i]) >= 0 && (ypos + wallsAroundy[a]) >= 0 && (ypos + wallsAroundy[a]) < m.getVerti()[0].length )) {
+					if (m.getVerti()[(xpos + wallsAroundx[i])][(ypos + wallsAroundy[a])] == Maze.WALL) {
+						Wall checkMe = new Wall((xpos + wallsAroundx[i]) * WIDTH, (ypos + wallsAroundy[a]) * WIDTH,
+						                        (xpos + wallsAroundx[i]) * WIDTH + WIDTH, (ypos + wallsAroundy[a]) * WIDTH, HEIGHT);
+						if(checkMe.isZCollision(coord, velocity, dimensions)) return true;
+					}
+				}
+			}
+		}
+		if(winWall.isZCollision(coord, velocity, dimensions)) return true;
 		return false;
 	}
 
 	public void horCollision(float[] coord, float velocity[], float dimensions[]) {
 		//Get coordinates and only check if wall exists around it
 		//check if in z range
-		if (coord[2] >= 0 && coord[2] - dimensions[2] <= HEIGHT ) {
+		if (coord[2] >= 0 && coord[2]  < HEIGHT ) {
 			//check for x collis
 			int xpos = (int) coord[0] / WIDTH;
 			int ypos = (int) coord[1] / HEIGHT;

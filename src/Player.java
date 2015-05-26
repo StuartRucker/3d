@@ -11,15 +11,17 @@ public class Player {
 	private float[] horDeg = {10, 0};
 	private float verDeg = 0;
 	public static final int LEFT = 0, RIGHT = 1, FORWARD = 2, BACK = 3;
-	public static final float GRAVITY = .5f;
-	public static final float PLAYERHEIGHT = 40;
-	public static final float PLAYERJUMP = 13;
+	public static float GRAVITY = .5f;
+	public static float PLAYERHEIGHT = 20;
+	public static float PLAYERJUMP = 5;
 	private boolean lastCollisionZ = true;
 	private boolean lastCollisionHor = true;
-	private float dev = 1; // 10/SPEED of player
+	private float  PLAYERSPEED = .2f; // 10*SPEED of player
+	private float def[] = {15, 15, 20, 0, 0, 0}; //default values
+	public int powerup = -1; //denotes no power up;
 
 	public Player() {
-		this(0, 15, 20, 0, 0, 0);
+		this(15, 15, 20, 0, 0, 0);
 	}
 
 	public Player(float a, float b, float c, float d, float e, float f) {
@@ -30,24 +32,32 @@ public class Player {
 		playerVelocity[1] = e;
 		playerVelocity[2] = f;
 	}
+	public void init(){
+		player[0] = def[0];
+		player[1] = def[1];
+		player[2] = def[2];
+		playerVelocity[0] = def[3];
+		playerVelocity[1] = def[4];
+		playerVelocity[2] = def[5];
+	}
 
 	public void move(int constant) {
 		switch (constant) {
 		case 0:
-			playerVelocity[1] += horDeg[0] / dev;
-			playerVelocity[0] -= horDeg[1] / dev;
+			playerVelocity[1] += horDeg[0] * PLAYERSPEED;
+			playerVelocity[0] -= horDeg[1] * PLAYERSPEED;
 			break;
 		case 1:
-			playerVelocity[1] -= horDeg[0] / dev;
-			playerVelocity[0] += horDeg[1] / dev;
+			playerVelocity[1] -= horDeg[0] * PLAYERSPEED;
+			playerVelocity[0] += horDeg[1] * PLAYERSPEED;
 			break;
 		case 2:
-			playerVelocity[0] += horDeg[0] / dev;
-			playerVelocity[1] += horDeg[1] / dev;
+			playerVelocity[0] += horDeg[0] * PLAYERSPEED;
+			playerVelocity[1] += horDeg[1] * PLAYERSPEED;
 			break;
 		case 3:
-			playerVelocity[0] -= horDeg[0] / dev;
-			playerVelocity[1] -= horDeg[1] / dev;
+			playerVelocity[0] -= horDeg[0] * PLAYERSPEED;
+			playerVelocity[1] -= horDeg[1] * PLAYERSPEED;
 			break;
 
 		}
@@ -94,7 +104,7 @@ public class Player {
 				player[i] = 0;
 				playerVelocity[i] = 0;
 			}
-			player[0] = 0;
+			player[0] = 15;
 			player[1] = 15;
 			player[2] = PLAYERHEIGHT + 1;
 		}
@@ -102,4 +112,17 @@ public class Player {
 		playerVelocity[0] = 0;
 		playerVelocity[1] = 0;
 	}
+	public void removePowerUp(){
+		if(powerup == PowerUp.JUMP) PLAYERJUMP /= 2;
+		else if(powerup == PowerUp.HEIGHT) PLAYERHEIGHT /= 2;
+		else if(powerup == PowerUp.SPEED) PLAYERSPEED /= 2;
+		powerup = -1;
+	}
+	public void setPower(int s){
+		powerup = s;
+		if(powerup == PowerUp.JUMP) PLAYERJUMP *= 2;
+		else if(powerup == PowerUp.HEIGHT) PLAYERHEIGHT *= 2;
+		else if(powerup == PowerUp.SPEED) PLAYERSPEED *= 2;
+	}
+	public void method(){}
 }

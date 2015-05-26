@@ -15,26 +15,31 @@ public class Wall extends ScreenObj {
 	public boolean hasTexture;
 	public final float WIDTH = 5;
 
-	public Wall(float x1, float y1, float x2, float y2, float h, Texture tex) {
-
+public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
+		float x1 = (float)Math.min(xa1,xa2);
+		float x2 = (float)Math.max(xa1,xa2);
+		float y1 = (float)Math.min(ya1,ya2);
+		float y2 = (float)Math.max(ya1,ya2);
 		if (x1 == x2) { //extends in y direction
-			vertices[0][0] = x1 + WIDTH / 2;
+			vertices[0][0] = x1 - WIDTH / 2;
 			vertices[0][1] = y1;
-			vertices[1][0] = x1 - WIDTH / 2;
+			vertices[1][0] = x1 + WIDTH / 2;
 			vertices[1][1] = y1;
-			vertices[2][0] = x2 + WIDTH / 2;
+			vertices[2][0] = x2 - WIDTH / 2;
 			vertices[2][1] = y2;
-			vertices[3][0] = x2 - WIDTH / 2;
+			vertices[3][0] = x2 + WIDTH / 2;
 			vertices[3][1] = y2;
 		} else {
 			vertices[0][0] = x1;
-			vertices[0][1] = y1 + WIDTH / 2;
-			vertices[1][0] = x1;
-			vertices[1][1] = y1 - WIDTH / 2;
-			vertices[2][0] = x2;
-			vertices[2][1] = y2 + WIDTH / 2;
+			vertices[0][1] = y1 - WIDTH / 2;
+			vertices[1][0] = x2;
+			vertices[1][1] = y2 - WIDTH / 2;
+			vertices[2][0] = x1;
+			vertices[2][1] = y1 + WIDTH / 2;
 			vertices[3][0] = x2;
-			vertices[3][1] = y2 - WIDTH / 2;
+			vertices[3][1] = y2 + WIDTH / 2;
+
+			
 		}
 		height = h;
 		texture = tex;
@@ -45,25 +50,30 @@ public class Wall extends ScreenObj {
 		end[1] = y2;
 	}
 
-	public Wall(float x1, float y1, float x2, float y2, float h) {
+	public Wall(float xa1, float ya1, float xa2, float ya2, float h) {
+		float x1 = (float)Math.min(xa1,xa2);
+		float x2 = (float)Math.max(xa1,xa2);
+		float y1 = (float)Math.min(ya1,ya2);
+		float y2 = (float)Math.max(ya1,ya2);
 		if (x1 == x2) { //extends in y direction
-			vertices[0][0] = x1 + WIDTH / 2;
+			vertices[0][0] = x1 - WIDTH / 2;
 			vertices[0][1] = y1;
-			vertices[1][0] = x1 - WIDTH / 2;
+			vertices[1][0] = x1 + WIDTH / 2;
 			vertices[1][1] = y1;
-			vertices[2][0] = x2 + WIDTH / 2;
+			vertices[2][0] = x2 - WIDTH / 2;
 			vertices[2][1] = y2;
-			vertices[3][0] = x2 - WIDTH / 2;
+			vertices[3][0] = x2 + WIDTH / 2;
 			vertices[3][1] = y2;
 		} else {
 			vertices[0][0] = x1;
-			vertices[0][1] = y1 + WIDTH / 2;
-			vertices[1][0] = x1;
-			vertices[1][1] = y1 - WIDTH / 2;
-			vertices[2][0] = x2;
-			vertices[2][1] = y2 + WIDTH / 2;
+			vertices[0][1] = y1 - WIDTH / 2;
+			vertices[1][0] = x2;
+			vertices[1][1] = y2 - WIDTH / 2;
+			vertices[2][0] = x1;
+			vertices[2][1] = y1 + WIDTH / 2;
 			vertices[3][0] = x2;
-			vertices[3][1] = y2 - WIDTH / 2;
+			vertices[3][1] = y2 + WIDTH / 2;
+
 		}
 		start[0] = x1;
 		start[1] = y1;
@@ -127,7 +137,13 @@ public class Wall extends ScreenObj {
 	public boolean isZCollision(float[] coord, float[] velocity,
 	                            float[] dimensions) {
 
-		
+			if(coord[0] + dimensions[0]/2 >= vertices[0][0] && coord[0] - dimensions[0]/2 <= vertices[1][0]){//x range
+				if(coord[1] - dimensions[1]/2 <= vertices[2][1] && coord[1] + dimensions[1]/2 >= vertices[0][1]){//y range
+					if(coord[2] > height && height >= coord[2]  + velocity[2]){ //its going down, I'm yelling thunder
+						return true;
+					}
+				}
+			}
 		return false;
 	}
 	public void horCollision(float[] coord, float[] velocity, float[] dimensions) {
@@ -140,9 +156,11 @@ public class Wall extends ScreenObj {
 				if (coord[1] >= start[1] && coord[1] <= end[1]) {
 					if (coord[0] < start[0] - WIDTH / 2 && coord[0] + velocity[0] + dimensions[0] / 2 + WIDTH / 2 > start[0]) {
 						velocity[0] = 0;
+						return;
 					}
 					if (coord[0] > start[0] + WIDTH / 2 && coord[0] + velocity[0] - dimensions[0] / 2  - WIDTH / 2 < start[0]) {
 						velocity[0] = 0;
+						return;
 					}
 				}
 
@@ -150,19 +168,13 @@ public class Wall extends ScreenObj {
 				if (Math.abs(coord[0] - start[0]) <= WIDTH / 2 + .1) { //in x range
 					if (coord[1] < start[1] && coord[1] + velocity[1] + dimensions[1] / 2  > start[1]) {
 						velocity[1] = 0;
+						return;
 					}
 					if (coord[1] > end[1] && coord[1] + velocity[1] - dimensions[1] / 2  < end[1]) {
 						velocity[1] = 0;
+						return;
 					}
 				}
-
-				//ToDo
-
-				//check for diagonal entry
-				float xNext = coord[0] + velocity[0];
-				float yNext = coord[1] + velocity[1];
-				//if(Math.abs(coord[0] - start[0]) > WIDTH/2 && ((xNext)||()) ){
-				//}
 			}
 
 			//check for wall which extends in x direction
@@ -172,9 +184,11 @@ public class Wall extends ScreenObj {
 				if (coord[0] >= start[0] && coord[0] <= end[0]) {
 					if (coord[1] < start[1] - WIDTH / 2 && coord[1] + velocity[1] + dimensions[1] / 2 + WIDTH / 2 > start[1]) {
 						velocity[1] = 0;
+						return;
 					}
 					if (coord[1] > start[1] + WIDTH / 2 && coord[1] + velocity[1] - dimensions[1] / 2 - WIDTH / 2 < start[1]) {
 						velocity[1] = 0;
+						return;
 					}
 				}
 
@@ -182,16 +196,28 @@ public class Wall extends ScreenObj {
 				if (Math.abs(coord[1] - start[1]) <= WIDTH / 2 + .1) { //in x range
 					if (coord[0] < start[0] && coord[0] + velocity[0] + dimensions[0] / 2  > start[0]) {
 						velocity[0] = 0;
+						return;
 					}
 					if (coord[0] > end[0] && coord[0] + velocity[0] - dimensions[0] / 2  < end[0]) {
 						velocity[0] = 0;
+						return;
 					}
 				}
 			}
+							//check for diagonal entry
+			float xNext = coord[0] + velocity[0];
+			float yNext = coord[1] + velocity[1];
+			float minDistB = Float.MAX_VALUE;//min distance to any vertice before velocity vector
+			float minDistA = Float.MAX_VALUE;//after velocity vector
+			for(int i = 0; i < 4; i ++){
+				if(dist(coord[0],coord[1],vertices[i][0],vertices[i][1]) < minDistB){
+					minDistB = dist(coord[0],coord[1],vertices[i][0],vertices[i][1]);
+				}
+				if(dist(coord[0] + velocity[0],coord[1]+velocity[1],vertices[i][0],vertices[i][1]) < minDistA){
+					minDistA = dist(coord[0],coord[1],vertices[i][0],vertices[i][1]);
+				}
+			}
 		}
-
-
-
 	}
 	public float dist(float x1, float y1, float x2, float y2){
 		return (float) Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));

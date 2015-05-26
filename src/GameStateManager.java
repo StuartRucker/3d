@@ -39,6 +39,7 @@ public class GameStateManager {
 	private static Texture background;
 	private static boolean hasTexture;
 	public static GamePlay gamePlay;
+	public static PowerUpManager p;
 
 	static Menu menu;
 
@@ -52,8 +53,9 @@ public class GameStateManager {
 		r.add(floor);
 		Maze s = new Maze(30, 30);
 		r.add(new MazeObj(s));
-
 		player = new Player();
+		p = new PowerUpManager(player, s);
+		r.add(p);
 
 		//title setup
 		try {
@@ -65,7 +67,7 @@ public class GameStateManager {
 		}
 
 		gamePlay = new GamePlay();
-		menu = new Menu(gamePlay);
+		menu = new Menu(gamePlay,p);
 
 	}
 
@@ -88,7 +90,7 @@ public class GameStateManager {
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			Mouse.setGrabbed(true);
 		} else if (a == TITLE) {
-			player = new Player();
+			player.init();
 			make2D();
 			Mouse.setGrabbed(false);
 		} else if(a == PAUSE){
@@ -99,7 +101,7 @@ public class GameStateManager {
 				GL11.glEnable(GL11.GL_DEPTH_TEST);
 				GLU.gluPerspective(60, ((float)width / (float)height), 1, 1500);
 				GL11.glMatrixMode(GL11.GL_MODELVIEW);
-				player = new Player();
+				player.init();
 				gamePlay.startCountDown(3);
 		}else if(a == WIN){
 			Mouse.setGrabbed(false);
@@ -189,12 +191,15 @@ public class GameStateManager {
 			}
 		}
 		if(state == PLAY){
+			
 			//draw time left
 			make2D();
 			menu.drawPlay();
+			menu.drawPowerUp();
 			make3D();
 			//handle playerPhysics
 			player.physics(r);
+			p.update();
 		}
 
 
