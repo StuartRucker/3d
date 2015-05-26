@@ -14,9 +14,12 @@ public class Platform extends ScreenObj {
 	private float h;
 	private float colR, colG, colB, colR2, colG2, colB2;
 	private boolean checkers = false;
-	private int checkerWidth;
 	private Texture texture;
 	private boolean hasTexture;
+	private float vertices[][] = new float[4][2];
+	private float preferredWidth = 50;
+	private float checkerWidth;
+	private int numbTiles;
 
 	public Platform(float x, float y, float z, float width, float length, float height) {
 		coordinates[0] = x;
@@ -35,6 +38,19 @@ public class Platform extends ScreenObj {
 			hasTexture = false;
 			//e.printStackTrace();
 		}
+		vertices[0][0] = coordinates[0] - w/2;
+		vertices[0][1] = coordinates[1] - l/2;
+		vertices[1][0] = coordinates[0] + w/2;
+		vertices[1][1] = coordinates[1] - l/2;
+		vertices[2][0] = coordinates[0] - w/2;
+		vertices[2][1] = coordinates[1] + l/2;
+		vertices[3][0] = coordinates[0] + w/2;
+		vertices[3][1] = coordinates[1] + l/2;
+
+		//find preferred size
+		numbTiles = (int)(width/preferredWidth);
+		checkerWidth = width/(numbTiles);
+	
 	}
 	public void draw() {
 		if (!hasTexture) {
@@ -50,17 +66,24 @@ public class Platform extends ScreenObj {
 			glColor3f(1f, 1f, 1f);
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
-			GL11.glBegin(GL11.GL_QUADS);
-				GL11.glTexCoord2f(0, 0);
-				glVertex3f(coordinates[0] + w / 2, coordinates[1] + l / 2, coordinates[2] + h / 2);
-				GL11.glTexCoord2f(0, 1);
-				glVertex3f(coordinates[0] - w / 2, coordinates[1] + l / 2, coordinates[2] + h / 2);
-				GL11.glTexCoord2f(1, 0);
-				glVertex3f(coordinates[0] - w / 2, coordinates[1] - l / 2, coordinates[2] + h / 2);
-				GL11.glTexCoord2f(1, 1);
-				glVertex3f(coordinates[0] + w / 2, coordinates[1] - l / 2, coordinates[2] + h / 2);
-			GL11.glEnd();
+			for(float x = vertices[0][0]; x < vertices[1][0]; x += checkerWidth){
+				for(float y = vertices[0][1]; y < vertices[2][1]; y += checkerWidth){
+					GL11.glBegin(GL11.GL_QUADS);
+						GL11.glTexCoord2f(0, 0);
+						glVertex3f(x,y, coordinates[2] + h / 2);
+						GL11.glTexCoord2f(0, 1);
+						glVertex3f(x + checkerWidth,y, coordinates[2] + h / 2);
+						GL11.glTexCoord2f(1, 0);
+						glVertex3f(x+ checkerWidth,y+checkerWidth, coordinates[2] + h / 2);
+						GL11.glTexCoord2f(1, 1);
+						glVertex3f(x,y + checkerWidth, coordinates[2] + h / 2);
+					GL11.glEnd();
+				}
+			}
 		}
+		
+
+
 		/*
 		if (!checkers) {
 			glColor3f(colR, colG, colB);
