@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex3f;
 
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -14,11 +15,13 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
-
 //imports for font
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.TrueTypeFont;
 
 
 public class Menu{
@@ -36,6 +39,16 @@ public class Menu{
 	public int lastLoop;
 	public PowerUpManager powerup;
 
+	Font awtfont = new Font("Calibri", Font.BOLD, 36);
+	TrueTypeFont font = new TrueTypeFont(awtfont, true);
+	int fontheight = font.getHeight();
+	int fontwidthresume = font.getWidth("Resume");
+	int fontwidthmenu = font.getWidth("Menu");
+	int fontwidthtryagain = font.getWidth("Try Again on Same Maze");
+	int fontwidthbacktomenu = font.getWidth("Back to Menu");
+	
+	
+	
 	float definingVerts[][] = new float[4][4];
 	public Menu(GamePlay g, PowerUpManager p){
 		gamePlay= g;
@@ -50,10 +63,13 @@ public class Menu{
 	}
 	public void drawPause(){
 		glColor3f(1f, 1f, 1f);
-		//GL11.glEnable(GL11.GL_TEXTURE_2D);
-		//GL11.glBindTexture(GL11.GL_TEXTURE_2D, menu.getTextureID());
 		
 		//resume button
+	
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_BLEND);
+		
+		
 		float top = height-200;
 		GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(width/2-BAR_WIDTH/2, top);
@@ -65,8 +81,17 @@ public class Menu{
 		definingVerts[0][1] = top-BAR_HEIGHT;
 		definingVerts[0][2] = width/2+BAR_WIDTH/2;
 		definingVerts[0][3] = top+BAR_HEIGHT;
-
-
+		
+		
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		TextureImpl.bindNone();
+		
+		font.drawString(width/2-fontwidthresume/2, (top - BAR_HEIGHT/2 - fontheight/2), "Resume", Color.black);
+		
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
+		
+		
 		//menu button
 		float top2 = top - BAR_HEIGHT-BUFFER;
 		GL11.glBegin(GL11.GL_QUADS);
@@ -116,7 +141,7 @@ public class Menu{
 		definingVerts[2][3] = top;
 
 		
-		//back to title
+		//back to menu
 		w -= 200;
 		h = 150;
 		top = top-2*h;
