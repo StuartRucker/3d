@@ -155,11 +155,12 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 				//check for collisions on primary face
 				if (coord[1] >= start[1] && coord[1] <= end[1]) {
 					if (coord[0] < start[0] - WIDTH / 2 && coord[0] + velocity[0] + dimensions[0] / 2 + WIDTH / 2 > start[0]) {
-						velocity[0] = 0;
+						if (velocity[0] > 0) velocity[0] = 0;
+						//velocity[0] = 0;
 						return;
 					}
 					if (coord[0] > start[0] + WIDTH / 2 && coord[0] + velocity[0] - dimensions[0] / 2  - WIDTH / 2 < start[0]) {
-						velocity[0] = 0;
+						if (velocity[0] < 0) velocity[0] = 0;
 						return;
 					}
 				}
@@ -167,11 +168,11 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 				//check for collision on small face
 				if (Math.abs(coord[0] - start[0]) <= WIDTH / 2 + .1) { //in x range
 					if (coord[1] < start[1] && coord[1] + velocity[1] + dimensions[1] / 2  > start[1]) {
-						velocity[1] = 0;
+						if (velocity[1] > 0) velocity[1] = 0;
 						return;
 					}
 					if (coord[1] > end[1] && coord[1] + velocity[1] - dimensions[1] / 2  < end[1]) {
-						velocity[1] = 0;
+						if (velocity[1] < 0) velocity[1] = 0;
 						return;
 					}
 				}
@@ -183,11 +184,11 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 				//check for collisions on primary face
 				if (coord[0] >= start[0] && coord[0] <= end[0]) {
 					if (coord[1] < start[1] - WIDTH / 2 && coord[1] + velocity[1] + dimensions[1] / 2 + WIDTH / 2 > start[1]) {
-						velocity[1] = 0;
+						if (velocity[1] > 0) velocity[1] = 0;
 						return;
 					}
 					if (coord[1] > start[1] + WIDTH / 2 && coord[1] + velocity[1] - dimensions[1] / 2 - WIDTH / 2 < start[1]) {
-						velocity[1] = 0;
+						if (velocity[1] < 0) velocity[1] = 0;
 						return;
 					}
 				}
@@ -195,11 +196,11 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 				//check for collision on small face
 				if (Math.abs(coord[1] - start[1]) <= WIDTH / 2 + .1) { //in x range
 					if (coord[0] < start[0] && coord[0] + velocity[0] + dimensions[0] / 2  > start[0]) {
-						velocity[0] = 0;
+						if (velocity[1] > 0) velocity[0] = 0;
 						return;
 					}
 					if (coord[0] > end[0] && coord[0] + velocity[0] - dimensions[0] / 2  < end[0]) {
-						velocity[0] = 0;
+						if (velocity[1] < 0) velocity[0] = 0;
 						return;
 					}
 				}
