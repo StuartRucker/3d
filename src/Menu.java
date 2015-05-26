@@ -25,8 +25,6 @@ import org.newdawn.slick.TrueTypeFont;
 
 
 public class Menu{
-	public static Texture pause;
-	public static Texture menu;
 	public static int PAUSE = 21;
 	public static int TITLE = 22;
 	public static int PLAY_AGAIN = 23;
@@ -54,17 +52,11 @@ public class Menu{
 		gamePlay= g;
 		powerup = p;
 
-		try{
-			//pause = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("../assets/pause.png"));
-			//menu = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("../assets/menu.png"));
-		}catch(Exception e){
-
-		}
 	}
 	public void drawPause(){
 		glColor3f(1f, 1f, 1f);
 		
-		//resume button
+		//menu button
 	
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -86,13 +78,13 @@ public class Menu{
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		TextureImpl.bindNone();
 		
-		font.drawString(width/2-fontwidthresume/2, (top - BAR_HEIGHT/2 - fontheight/2), "Resume", Color.black);
+		font.drawString(width/2-fontwidthmenu/2, (top - BAR_HEIGHT/2 - fontheight/2), "Menu", Color.black);
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_BLEND);
 		
 		
-		//menu button
+		//resume button
+		glColor3f(1f, 1f, 1f);
 		float top2 = top - BAR_HEIGHT-BUFFER;
 		GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(width/2-BAR_WIDTH/2, top2);
@@ -104,13 +96,21 @@ public class Menu{
 		definingVerts[1][1] = top2-BAR_HEIGHT;
 		definingVerts[1][2] = width/2+BAR_WIDTH/2;
 		definingVerts[1][3] = top2+BAR_HEIGHT;
+		
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		TextureImpl.bindNone();
+		
+		font.drawString(width/2-fontwidthresume/2, (top2 - BAR_HEIGHT/2 - fontheight/2), "Resume", Color.black);
+		
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
 
 		lastLoop = GameStateManager.PAUSE;
 	}
 	public void drawCountDown(){
 		//draw number of seconds left
 		int secondsLeft = gamePlay.timeLeft();
-		glColor3f(1f/(float)secondsLeft, 1f, 1f);
+		glColor3f(.13f*(6f - (float)secondsLeft), 1f, 1f);
 
 		
 		//should display the seconds left
