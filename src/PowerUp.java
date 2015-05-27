@@ -14,7 +14,9 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
+//this class handles the individual cubes which give power ups
 public class PowerUp{
+	//constants to denote the type of power up
 	public static int JUMP = 0;
 	public static int HEIGHT = 1;
 	public static int SPEED = 2;
@@ -29,6 +31,7 @@ public class PowerUp{
 	public PowerUp(int x, int y){
 		this.x = x;
 		this.y = y;
+		//randomly determine type of power up
 		type = (int)(Math.random()*3);
 	}
 	public  void draw(){
@@ -37,6 +40,8 @@ public class PowerUp{
 			GL11.glTranslatef(x,y,0);
 			GL11.glRotatef(2*(rotDeg++), 0, 0, 1);
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			
+			//different texture for different looking power up
 			if(type == JUMP){
 				glColor3f(0f, 1f, 1f);
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, Textures.jump.getTextureID());
@@ -57,7 +62,6 @@ public class PowerUp{
 	
 	}
 	private void drawCube(){
-
 		GL11.glBegin(GL11.GL_QUADS);
 	    	GL11.glTexCoord2f(0, 1);
 	    	GL11.glVertex3f(p1,p1,vert);
@@ -124,6 +128,9 @@ public class PowerUp{
 	    	GL11.glVertex3f(p1,p2,p2-p1+vert);
     	GL11.glEnd();
 	}
+	
+
+	//determines whether the player is close enough to the power up to be used
 	public  boolean isCollision(float[] coord, float velocity[], float dimensions[]){
 		if(used) return false;
 		float radius = (float)Math.sqrt(p1*p1+p2*p2+vert*vert);
@@ -135,10 +142,14 @@ public class PowerUp{
 		if(dist <= radius) return true;
 		return false;
 	}
+	
+	//if the power up is used, it will disapear (no longer draw or test for collisions)
 	public void use(){
 		
 		used = true;
 	}
+	
+	//returns type of power up
 	public int getPowerUp(){
 		return type; 
 	}

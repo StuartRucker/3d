@@ -21,26 +21,31 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 
+//this determines which type of loops should be run
 public class GameStateManager {
+	//constants to denote different states
 	public static int PAUSE = 0;
 	public static int TITLE = 1;
 	public static int PLAY = 2;
 	public static int COUNT_DOWN = 3;
 	public static int WIN = 4;
+	
+	//list of all objects in game
 	private static ArrayList<ScreenObj> r;
 	private static Player player;
+	
+	//for mouse input
 	private static float mxspd = -.005f;
 	private static float myspd = -.005f;
 	private static int width = 800;
 	private static int height = 600;
-	private static boolean pause = true;
 
 	//title
 	private static Texture background;
 	private static boolean hasTexture;
 	public static GamePlay gamePlay;
 	public static PowerUpManager p;
-
+	
 	static Menu menu;
 
 
@@ -71,6 +76,7 @@ public class GameStateManager {
 
 	}
 
+	//determines which loop should be executed 
 	public static void manage() {
 		if (state == PLAY || state == PAUSE || state == COUNT_DOWN || state == WIN) {
 			playLoop();
@@ -78,6 +84,8 @@ public class GameStateManager {
 			titleLoop();
 		}
 	}
+
+	//set up code when the state of the game is changed
 	public static void setState(int a) {
 		if (a == PLAY) {
 			if(state == COUNT_DOWN || state == TITLE){
@@ -90,6 +98,14 @@ public class GameStateManager {
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			Mouse.setGrabbed(true);
 		} else if (a == TITLE) {
+			for(int i = 0; i < r.size(); i++){
+
+				if(r.get(i) instanceof MazeObj){
+					r.set(i,(ScreenObj)new MazeObj(new Maze(30,30)));
+				}else if(r.get(i) instanceof PowerUpManager){
+					((PowerUpManager) r.get(i)).generateObjs();
+				}
+			}
 			player.init();
 			make2D();
 			Mouse.setGrabbed(false);
@@ -109,6 +125,8 @@ public class GameStateManager {
 		}
 		state = a;
 	}
+	
+	//the game loop that executes if you are playing the game (i.e. not paused)
 	public static void playLoop() {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		GL11.glLoadIdentity();
@@ -184,6 +202,9 @@ public class GameStateManager {
 			if(Mouse.isButtonDown(0)){
 				int constant = menu.getMouseClicked(Mouse.getX(),Mouse.getY());
 				if(constant == Menu.PLAY_AGAIN){
+					for(int i = 0; i < r.size(); i++)//i++ increments i
+						if(r.get(i) instanceof PowerUpManager)
+							((PowerUpManager) r.get(i)).generateObjs();//coded by 420 textbook maker
 					setState(COUNT_DOWN);
 				}else if(constant == Menu.TITLE){
 					setState(TITLE);
@@ -191,7 +212,6 @@ public class GameStateManager {
 			}
 		}
 		if(state == PLAY){
-			
 			//draw time left
 			make2D();
 			menu.drawPlay();
@@ -204,6 +224,8 @@ public class GameStateManager {
 
 
 	}
+	
+	//loop executed when title is displayed
 	public static void titleLoop() {
 
 		// Clear the screen and depth buffer
@@ -239,6 +261,9 @@ public class GameStateManager {
 			}
 		}
 	}
+	
+	//these two methods sandwhich things drawn directly to the screen
+	//they switch between ortho, and perspective
 	protected static void make2D() {
         //Remove the Z axis
         GL11.glDisable(GL11.GL_LIGHTING);

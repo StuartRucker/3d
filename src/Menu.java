@@ -24,19 +24,28 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
 
+//draws stuff directly to screen
 public class Menu{
+	//contstants for what button was clicked
 	public static int PAUSE = 21;
 	public static int TITLE = 22;
 	public static int PLAY_AGAIN = 23;
+	
+	//animation constants
 	public final int BAR_HEIGHT  = 70;
 	public final int BAR_WIDTH = 300;
 	public final int BUFFER = 150;
+	
+	//screen coordinates
 	public int width = WalkAround.width;
 	public int height = WalkAround.height;
+	
+	//needs these objects to display the info
 	public GamePlay gamePlay;
 	public int lastLoop;
 	public PowerUpManager powerup;
 
+	//fonts
 	Font awtfont = new Font("Calibri", Font.BOLD, 36);
 	TrueTypeFont font = new TrueTypeFont(awtfont, true);
 	int fontheight = font.getHeight();
@@ -47,17 +56,19 @@ public class Menu{
 	
 	
 	
+	//the 2 vertices of 4 different buttons (used for detecting clicking)
 	float definingVerts[][] = new float[4][4];
+	
 	public Menu(GamePlay g, PowerUpManager p){
 		gamePlay= g;
 		powerup = p;
-
 	}
+
+	//draw the pause menu (i.e. when you press escape)
 	public void drawPause(){
 		glColor3f(1f, 1f, 1f);
 		
 		//menu button
-	
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glEnable(GL11.GL_BLEND);
 		
@@ -107,6 +118,8 @@ public class Menu{
 
 		lastLoop = GameStateManager.PAUSE;
 	}
+	
+	//counts down the seconds before you begin
 	public void drawCountDown(){
 		//draw number of seconds left
 		int secondsLeft = gamePlay.timeLeft();
@@ -123,6 +136,8 @@ public class Menu{
 		GL11.glEnd();
 		lastLoop = GameStateManager.COUNT_DOWN;
 	}
+	
+	//draw the menu that appears when you win
 	public void drawWin(){
 		//"try again on same maze" button
 		float w = 500;
@@ -163,6 +178,8 @@ public class Menu{
 		int secondsTaken = gamePlay.getGameTime();
 		//display the time is is taking you to solve the maze in a corner of screen
 	}
+	
+	//returns what button was clicked
 	public int getMouseClicked(float x, float y){
 		if(lastLoop == GameStateManager.PAUSE){
 			if(x > definingVerts[0][0] && y > definingVerts[0][1] && x < definingVerts[0][2] && y < definingVerts[0][3]){
@@ -181,14 +198,17 @@ public class Menu{
 		}
 		return -1;
 	}
+	
+	//draws the green power up bar indicating the amount of time left
 	public void drawPowerUp	(){
 		float timeLeft = powerup.getTimeLeft();
-		glColor3f(0f, 1f, 0f);
+		if(timeLeft < 1750) glColor3f(1f, 0f, 0f);
+		else glColor3f(0f, 1f, 0f);
 		GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(0, height);
 			GL11.glVertex2f(0, height- BAR_HEIGHT);
-			GL11.glVertex2f(timeLeft*30, height- BAR_HEIGHT);
-			GL11.glVertex2f(timeLeft*30, height);
+			GL11.glVertex2f(timeLeft/15, height- BAR_HEIGHT);
+			GL11.glVertex2f(timeLeft/15, height);
 		GL11.glEnd();
 	}
 }	
