@@ -1,4 +1,4 @@
-
+//abstract class for anything in the world
 public abstract class ScreenObj {
 	public float coordinates[];
 	public float velocity[];

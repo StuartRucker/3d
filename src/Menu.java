@@ -53,6 +53,7 @@ public class Menu{
 	int fontwidthmenu = font.getWidth("Menu");
 	int fontwidthtryagain = font.getWidth("Try Again on Same Maze");
 	int fontwidthbacktomenu = font.getWidth("Back to Menu");
+	int fontwidthTime = font.getWidth("Your Time: 3");
 	
 	
 	
@@ -123,6 +124,7 @@ public class Menu{
 	public void drawCountDown(){
 		//draw number of seconds left
 		Integer secondsLeft = gamePlay.timeLeft();
+		if(secondsLeft <0) secondsLeft = 0;
 		glColor3f(.13f*(6f - (float)secondsLeft), 1f, 1f);
 
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -175,7 +177,7 @@ public class Menu{
 		TextureImpl.bindNone();
 		
 		String str = "Your Time: " + gamePlay.getWinTime();
-		font.drawString(width/2-fontwidthtryagain/2, (top - h/2 - 3*fontheight/2), str, Color.black);
+		font.drawString(width/2-fontwidthTime/2, (top - h/2 - 3*fontheight/2), str, Color.black);
 		font.drawString(width/2-fontwidthtryagain/2, (top - h/2 - fontheight/2), "Try Again on Same Maze", Color.black);
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);

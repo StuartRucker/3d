@@ -91,6 +91,8 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 			color[i] = (float) (Math.random());
 		}
 	}
+
+
 	public void draw() {
 
 		if (!hasTexture) {
@@ -117,8 +119,7 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 			GL11.glEnd();
 		}
 
-		//draw roof
-		
+		//draw roof	
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0, 1);
 		GL11.glVertex3f(vertices[0][0], vertices[0][1], height);
@@ -135,8 +136,9 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 		if (hasTexture) {
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 		}
-
 	}
+
+	//collision in the z direction
 	public boolean isZCollision(float[] coord, float[] velocity,
 	                            float[] dimensions) {
 
@@ -149,6 +151,8 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 			}
 		return false;
 	}
+	
+	//collision in the xy plane
 	public void horCollision(float[] coord, float[] velocity, float[] dimensions) {
 		//check if in z range
 		if (coord[2] >= 0 && coord[2] - dimensions[2] <= height ) {
@@ -195,33 +199,16 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 					}
 				}
 			}
-
-			/*
-			//intersection of circle and line 
-			//approximate t
-			float closestDist = Float.MAX_VALUE;
-			for(float tApprox = 0; tApprox <= 1; tApprox += .05f){
-				float d = dist(coord[0] + velocity[0] * tApprox, coord[1] + velocity[1] * tApprox, vertices[0][0],vertices[0][1]);
-				if(Math.abs(d - bufD) < closestDist){
-					//right quadrant
-					if(coord[0] + velocity[0] * tApprox < vertices[0][0] && coord[1] + velocity[1] * tApprox < vertices[0][1]){
-						t = tApprox;
-						closestDist = Math.abs(d - bufD);
-					}
-				}
-			}
-			float d = dist(coord[0] + velocity[0] * t, coord[1] + velocity[1] * t, vertices[0][0],vertices[0][1]);
-			float error = 1f;
-			if(Math.abs(d-bufD)< error){
-				float x = coord[0] + velocity[0] * t;
-				float y = coord[1] + velocity[1] * t;
-			}*/
 		}	
 			
 	}
+	
+	//helper method
 	public float dist(float x1, float y1, float x2, float y2){
 		return (float) Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
 	}
+
+	//generate the outer segments for collisions
 	private void generateSegs(){
 		segments[0][0] = vertices[0][0]-   bufD;
 		segments[0][1] = vertices[0][1];

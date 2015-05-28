@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import org.newdawn.slick.opengl.Texture;
 
+//if you collide with this wall, you Win!!!!!
 public class WinWall extends Wall{
 	
 	public WinWall(float x1, float y1, float x2, float y2, float h, Texture tex) {

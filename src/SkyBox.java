@@ -9,6 +9,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 
+//a box which makes it seem like you are in the real world
 public class SkyBox {
 
 	static Texture[] skytex = new Texture[6];

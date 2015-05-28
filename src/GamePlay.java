@@ -1,3 +1,5 @@
+
+//handles timing for the countdown, and how fast you are
 public class GamePlay{
 	long countDownEnd;
 	long gameStart;
@@ -10,8 +12,7 @@ public class GamePlay{
 	}
 	public int timeLeft(){
 		int a =   (int)((countDownEnd - System.currentTimeMillis()+500)/1000);
-		if(a < 0) return 0;
-		else return a;
+		return a;
 	}
 	public void startGame(){
 		gameStart = System.currentTimeMillis();

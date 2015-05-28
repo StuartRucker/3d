@@ -7,21 +7,30 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 
+//the floor
 public class Platform extends ScreenObj {
 
-	private float w;
-	private float l;
-	private float h;
+	//platform dimensions
+	private float w;//x
+	private float l;//y
+	private float h;//z
+	
+	//colors (only if there is a texture error)
 	private float colR, colG, colB, colR2, colG2, colB2;
 	private boolean checkers = false;
 	private Texture texture;
 	private boolean hasTexture;
+	
+	//vertices of the platform
 	private float vertices[][] = new float[4][2];
+	
+	//for tesselating textures
 	private float preferredWidth = 50;
 	private float checkerWidth;
 	private int numbTiles;
 
 	public Platform(float x, float y, float z, float width, float length, float height) {
+		//center
 		coordinates[0] = x;
 		coordinates[1] = y;
 		coordinates[2] = z;
@@ -31,6 +40,8 @@ public class Platform extends ScreenObj {
 		colG = 1;
 		colB = 0;
 		this.h = height;
+		
+		//texture
 		try {
 			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("../assets/platform.png"));
 			hasTexture = true;
@@ -38,6 +49,8 @@ public class Platform extends ScreenObj {
 			hasTexture = false;
 			//e.printStackTrace();
 		}
+		
+		//vertices for outer platform
 		vertices[0][0] = coordinates[0] - w/2;
 		vertices[0][1] = coordinates[1] - l/2;
 		vertices[1][0] = coordinates[0] + w/2;
@@ -47,12 +60,17 @@ public class Platform extends ScreenObj {
 		vertices[3][0] = coordinates[0] + w/2;
 		vertices[3][1] = coordinates[1] + l/2;
 
-		//find preferred size
+		//find preferred size for tesselating
 		numbTiles = (int)(width/preferredWidth);
 		checkerWidth = width/(numbTiles);
 	
 	}
+	
+
+	//ftse yhr platform
 	public void draw() {
+		
+		//single quad with color if error loading texture
 		if (!hasTexture) {
 			glColor3f(colR, colG, colB);
 			GL11.glBegin(GL11.GL_QUADS);
@@ -62,6 +80,9 @@ public class Platform extends ScreenObj {
 				glVertex3f(coordinates[0] + w / 2, coordinates[1] - l / 2, coordinates[2] + h / 2);
 			GL11.glEnd();
 		}
+		
+
+		//tesselate the grass texture
 		if (hasTexture) {
 			glColor3f(1f, 1f, 1f);
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -157,6 +178,8 @@ public class Platform extends ScreenObj {
 
 
 	}
+	
+	//whether you are fall and hit the platform
 	public boolean isZCollision(float [] coord, float[] velocity, float dimensions[]) {
 		if (coord[0] <= coordinates[0] + w / 2 && coord[0] >= coordinates[0] - w / 2 && coord[1] <= coordinates[1] + l / 2 && coord[1] >= coordinates[1] - l / 2) {
 			if (coord[2] >= this.coordinates[2] && coord[2] + velocity[2] <= this.coordinates[2]) {
@@ -168,6 +191,8 @@ public class Platform extends ScreenObj {
 		}
 		return false;
 	}
+	
+	//getters and setters
 	public void setColor(int a, int b, int c) {
 		colR = a;
 		colG = b;
@@ -182,10 +207,13 @@ public class Platform extends ScreenObj {
 		while (a < 0) a += b;
 		return a % b;
 	}
-
 	public void enableCheckers(boolean s) {
 		checkers = s;
 	}
+
+
+	
+	//check if you walk into the side of the platform
 	@Override
 	public void horCollision(float[] coord, float[] velocity, float[] dimensions) {
 		if (coord[2] < coordinates[2] + h / 2 && coord[2] + dimensions[2] > coordinates[2] - h / 2 ) {

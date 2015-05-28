@@ -19,6 +19,8 @@ public class MazeObj extends ScreenObj {
 	boolean hasTexture;
 	WinWall winWall;
 
+
+	//treats the entire maze as an object for cleaner collisions
 	public MazeObj(Maze m) {
 
 		try {
@@ -35,6 +37,7 @@ public class MazeObj extends ScreenObj {
 		generate();
 	}
 
+	//generate an array list of all walls in the maze
 	private void generate() {
 		boolean[][] horiz = m.getHoriz();
 		boolean[][] verti = m.getVerti();
@@ -73,17 +76,21 @@ public class MazeObj extends ScreenObj {
 		}
 	}
 
+	//draw each wall in maze
 	public void draw() {
 		for (Wall w : list) {
 			w.draw();
 		}
 	}
 
+	
 	public boolean isZCollision(float[] coord, float velocity[], float dimensions[]) {
 		//check for x collis
 		int xpos = (int) coord[0] / WIDTH;
 		int ypos = (int) coord[1] / HEIGHT;
 
+		
+		//only check walls which are near by
 		int wallsAroundx[] = { -1, 0, 1};
 		int wallsAroundy[]  = { -1, 0, 1};
 		for (int i = 0; i < wallsAroundy.length; i ++) {
@@ -116,6 +123,7 @@ public class MazeObj extends ScreenObj {
 			int xpos = (int) coord[0] / WIDTH;
 			int ypos = (int) coord[1] / HEIGHT;
 
+			//only check walls which are nearby
 			int wallsAroundx[] = { -1, 0, 1};
 			int wallsAroundy[]  = { -1, 0, 1};
 			for (int i = 0; i < wallsAroundy.length; i ++) {
