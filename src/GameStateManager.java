@@ -168,7 +168,11 @@ public class GameStateManager {
 		}
 
 
-
+		// TODO: Draw skybox here
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		SkyBox.drawSkybox(player.getPosX(), player.getPosY(), player.getPosZ() + player.PLAYERHEIGHT);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		
 		for (ScreenObj a : r) {
 			a.draw();
 		}
