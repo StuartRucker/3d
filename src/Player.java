@@ -17,14 +17,14 @@ public class Player {
 	//constants
 	public static final int LEFT = 0, RIGHT = 1, FORWARD = 2, BACK = 3;
 	public static float GRAVITY = .5f;
-	public static float PLAYERHEIGHT = 20;
-	public static float PLAYERJUMP = 5;
+	public static float PLAYERHEIGHT = 20; // Default 20
+	public static float PLAYERJUMP = 5; // Default 5
 	
 	//used to see whether jumping is allowed
 	private boolean lastCollisionZ = true;
 	private boolean lastCollisionHor = true;
 	
-	private float  PLAYERSPEED = .14f; // 10*SPEED of player
+	private float  PLAYERSPEED = .14f; // 10*SPEED of player - Default .14f
 	private float def[] = {15, 15, 20, 0, 0, 0}; //default values for constructor
 	public int powerup = -1; //denotes no power up;
 
