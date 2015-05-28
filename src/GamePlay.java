@@ -2,6 +2,7 @@ public class GamePlay{
 	long countDownEnd;
 	long gameStart;
 	int time;
+	long pauseTime;
 	public GamePlay(){
 	}
 	public void startCountDown(int secondsLater){
@@ -21,6 +22,12 @@ public class GamePlay{
 	}
 	public int getWinTime(){
 		return time;
+	}
+	public void pause(){
+		pauseTime = (System.currentTimeMillis()-gameStart);
+	}
+	public void resume(){
+		gameStart = System.currentTimeMillis()-pauseTime;
 	}
 
 }

@@ -91,6 +91,9 @@ public class GameStateManager {
 			if(state == COUNT_DOWN || state == TITLE){
 				gamePlay.startGame();
 			}
+			if(state== PAUSE){
+				gamePlay.resume();
+			}
 			GL11.glMatrixMode(GL11.GL_PROJECTION);
 			GL11.glLoadIdentity();
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -110,6 +113,7 @@ public class GameStateManager {
 			make2D();
 			Mouse.setGrabbed(false);
 		} else if(a == PAUSE){
+			gamePlay.pause();
 			Mouse.setGrabbed(false);
 		}else if(a == COUNT_DOWN){
 				GL11.glMatrixMode(GL11.GL_PROJECTION);

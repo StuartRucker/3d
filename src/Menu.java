@@ -174,6 +174,8 @@ public class Menu{
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		TextureImpl.bindNone();
 		
+		String str = "Your Time: " + gamePlay.getWinTime();
+		font.drawString(width/2-fontwidthtryagain/2, (top - h/2 - 3*fontheight/2), str, Color.black);
 		font.drawString(width/2-fontwidthtryagain/2, (top - h/2 - fontheight/2), "Try Again on Same Maze", Color.black);
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
