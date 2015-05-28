@@ -9,7 +9,9 @@ public class GamePlay{
 		countDownEnd = System.currentTimeMillis() + secondsLater * 1000;
 	}
 	public int timeLeft(){
-		return  (int)((countDownEnd - System.currentTimeMillis()+500)/1000);
+		int a =   (int)((countDownEnd - System.currentTimeMillis()+500)/1000);
+		if(a < 0) return 0;
+		else return a;
 	}
 	public void startGame(){
 		gameStart = System.currentTimeMillis();
