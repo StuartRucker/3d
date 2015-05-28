@@ -1,4 +1,5 @@
 \documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
 \title{User Manual}
 \author{Austin Lowell, Stuart Rucker, Oscar Suen}
 \date{\today}
@@ -6,11 +7,29 @@
 \begin{document}
 \maketitle
 \section{Description}
+This is a single-player game where you try to get out of a maze.  This game is played in first-person view.  You start at one corner of the maze and have to try to reach the opposite corner in the shortest amount of time possible.  The mazes are randomly generated.
 
-\section{Key Bindings}
+\section{Keyboard Controls}
+\begin{tabular}{c | c}
+Command & Action \\
+\hline
+\texttt{WASD} & Movement \\
+\texttt{Space} & Jump \\
+\texttt{Mouse} & Look Around
+\end{tabular}
 
 \section{Powerups}
+There are three powerups: speed, jump, and growth.  Their functions are as below.
+
+\begin{tabular}{c | c}
+Powerup & Effect \\
+\hline
+Speed & Faster speed \\
+Jump & Higher jump \\
+Growth & Higher view
+\end{tabular}
 
 \section{Timing}
+The maze run is timed.  The time is shown on the top right corner and will be displayed at the end as well.
 
 \end{document}
