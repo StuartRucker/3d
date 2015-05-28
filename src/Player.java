@@ -18,7 +18,7 @@ public class Player {
 	public static final int LEFT = 0, RIGHT = 1, FORWARD = 2, BACK = 3;
 	public static float GRAVITY = .5f;
 	public static float PLAYERHEIGHT = 20; // Default 20
-	public static float PLAYERJUMP = 10; // Default 5
+	public static float PLAYERJUMP = 5; // Default 5
 	
 	//used to see whether jumping is allowed
 	private boolean lastCollisionZ = true;
