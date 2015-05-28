@@ -9,11 +9,15 @@ public class Wall extends ScreenObj {
 	public float height;
 	public  float[] start = new float[2];
 	public float[] end = new float[2];
-	public float vertices[][] = new float[4][2];
 	public float color[] = new float[3];
 	public Texture texture;
 	public boolean hasTexture;
 	public final float WIDTH = 5;
+	
+	//used for collision detection
+	public float bufD = 5;//distance from wall
+	public float segments[][] = new float[4][4];
+	public float vertices[][] = new float[4][2];
 
 public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 		float x1 = (float)Math.min(xa1,xa2);
@@ -37,10 +41,9 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 			vertices[2][0] = x1;
 			vertices[2][1] = y1 + WIDTH / 2;
 			vertices[3][0] = x2;
-			vertices[3][1] = y2 + WIDTH / 2;
-
-			
+			vertices[3][1] = y2 + WIDTH / 2;	
 		}
+		generateSegs();
 		height = h;
 		texture = tex;
 		hasTexture = true;
@@ -73,8 +76,8 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 			vertices[2][1] = y1 + WIDTH / 2;
 			vertices[3][0] = x2;
 			vertices[3][1] = y2 + WIDTH / 2;
-
 		}
+		generateSegs();
 		start[0] = x1;
 		start[1] = y1;
 		end[0] = x2;
@@ -149,79 +152,93 @@ public Wall(float xa1, float ya1, float xa2, float ya2, float h, Texture tex) {
 	public void horCollision(float[] coord, float[] velocity, float[] dimensions) {
 		//check if in z range
 		if (coord[2] >= 0 && coord[2] - dimensions[2] <= height ) {
-			//check for wall which extends in y direction
-			if (start[1] != end[1]) {
-
-				//check for collisions on primary face
-				if (coord[1] >= start[1] && coord[1] <= end[1]) {
-					if (coord[0] < start[0] - WIDTH / 2 && coord[0] + velocity[0] + dimensions[0] / 2 + WIDTH / 2 > start[0]) {
-						if (velocity[0] > 0) velocity[0] = 0;
-						//velocity[0] = 0;
-						return;
-					}
-					if (coord[0] > start[0] + WIDTH / 2 && coord[0] + velocity[0] - dimensions[0] / 2  - WIDTH / 2 < start[0]) {
-						if (velocity[0] < 0) velocity[0] = 0;
-						return;
-					}
-				}
-
-				//check for collision on small face
-				if (Math.abs(coord[0] - start[0]) <= WIDTH / 2 + .1) { //in x range
-					if (coord[1] < start[1] && coord[1] + velocity[1] + dimensions[1] / 2  > start[1]) {
-						if (velocity[1] > 0) velocity[1] = 0;
-						return;
-					}
-					if (coord[1] > end[1] && coord[1] + velocity[1] - dimensions[1] / 2  < end[1]) {
-						if (velocity[1] < 0) velocity[1] = 0;
-						return;
+			//check for collision on segment 0
+			float t = (segments[0][0]-coord[0])/velocity[0];
+			if(t > 0 && t <= 1){ //intersecting segment
+				if(velocity[0] > 0){ //entering wall
+					float nextY = coord[1] + velocity[1]*t;
+					if(nextY <= vertices[2][1] + bufD && nextY >= vertices[0][1] - bufD){//collision happens on segment
+						velocity[0] = 0;
 					}
 				}
 			}
 
-			//check for wall which extends in x direction
-			else {
-
-				//check for collisions on primary face
-				if (coord[0] >= start[0] && coord[0] <= end[0]) {
-					if (coord[1] < start[1] - WIDTH / 2 && coord[1] + velocity[1] + dimensions[1] / 2 + WIDTH / 2 > start[1]) {
-						if (velocity[1] > 0) velocity[1] = 0;
-						return;
-					}
-					if (coord[1] > start[1] + WIDTH / 2 && coord[1] + velocity[1] - dimensions[1] / 2 - WIDTH / 2 < start[1]) {
-						if (velocity[1] < 0) velocity[1] = 0;
-						return;
-					}
-				}
-
-				//check for collision on small face
-				if (Math.abs(coord[1] - start[1]) <= WIDTH / 2 + .1) { //in x range
-					if (coord[0] < start[0] && coord[0] + velocity[0] + dimensions[0] / 2  > start[0]) {
-						if (velocity[1] > 0) velocity[0] = 0;
-						return;
-					}
-					if (coord[0] > end[0] && coord[0] + velocity[0] - dimensions[0] / 2  < end[0]) {
-						if (velocity[1] < 0) velocity[0] = 0;
-						return;
+			//check for collision on segment 1
+			t = (segments[1][0]-coord[0])/velocity[0];
+			if(t > 0 && t <= 1){ //intersecting segment
+				if(velocity[0] < 0){ //entering wall
+					float nextY = coord[1] + velocity[1]*t;
+					if(nextY <= vertices[3][1] + bufD && nextY >= vertices[1][1] - bufD){//collision happens on segment
+						velocity[0] = 0;
 					}
 				}
 			}
-							//check for diagonal entry
-			float xNext = coord[0] + velocity[0];
-			float yNext = coord[1] + velocity[1];
-			float minDistB = Float.MAX_VALUE;//min distance to any vertice before velocity vector
-			float minDistA = Float.MAX_VALUE;//after velocity vector
-			for(int i = 0; i < 4; i ++){
-				if(dist(coord[0],coord[1],vertices[i][0],vertices[i][1]) < minDistB){
-					minDistB = dist(coord[0],coord[1],vertices[i][0],vertices[i][1]);
-				}
-				if(dist(coord[0] + velocity[0],coord[1]+velocity[1],vertices[i][0],vertices[i][1]) < minDistA){
-					minDistA = dist(coord[0],coord[1],vertices[i][0],vertices[i][1]);
+
+			//check for collision on segment 2
+			t = (segments[2][1]-coord[1])/velocity[1];
+			if(t > 0 && t <= 1){ //intersecting segment
+				if(velocity[1] > 0){ //entering wall
+					float nextX = coord[0] + velocity[0]*t;
+					if(nextX <= vertices[1][0] +bufD && nextX >= vertices[0][0] - bufD){//collision happens on segment
+						velocity[1] = 0;
+					}
 				}
 			}
-		}
+
+			//check for collision on segment 3
+			t = (segments[3][1]-coord[1])/velocity[1];
+			if(t > 0 && t <= 1){ //intersecting segment
+				if(velocity[1] < 0){ //entering wall
+					float nextX = coord[0] + velocity[0]*t;
+					if(nextX <= vertices[3][0] + bufD && nextX >= vertices[2][0]-bufD){//collision happens on segment
+						velocity[1] = 0;
+					}
+				}
+			}
+
+			/*
+			//intersection of circle and line 
+			//approximate t
+			float closestDist = Float.MAX_VALUE;
+			for(float tApprox = 0; tApprox <= 1; tApprox += .05f){
+				float d = dist(coord[0] + velocity[0] * tApprox, coord[1] + velocity[1] * tApprox, vertices[0][0],vertices[0][1]);
+				if(Math.abs(d - bufD) < closestDist){
+					//right quadrant
+					if(coord[0] + velocity[0] * tApprox < vertices[0][0] && coord[1] + velocity[1] * tApprox < vertices[0][1]){
+						t = tApprox;
+						closestDist = Math.abs(d - bufD);
+					}
+				}
+			}
+			float d = dist(coord[0] + velocity[0] * t, coord[1] + velocity[1] * t, vertices[0][0],vertices[0][1]);
+			float error = 1f;
+			if(Math.abs(d-bufD)< error){
+				float x = coord[0] + velocity[0] * t;
+				float y = coord[1] + velocity[1] * t;
+			}*/
+		}	
+			
 	}
 	public float dist(float x1, float y1, float x2, float y2){
 		return (float) Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
 	}
+	private void generateSegs(){
+		segments[0][0] = vertices[0][0]-   bufD;
+		segments[0][1] = vertices[0][1];
+		segments[0][2] = vertices[2][0]-   bufD;
+		segments[0][3] = vertices[2][1];
+		segments[1][0] = vertices[1][0]+   bufD;
+		segments[1][1] = vertices[1][1];
+		segments[1][2] = vertices[3][0]+   bufD;
+		segments[1][3] = vertices[3][1];
+		segments[2][0] = vertices[0][0];
+		segments[2][1] = vertices[0][1]-   bufD;
+		segments[2][2] = vertices[1][0];
+		segments[2][3] = vertices[1][1]-   bufD;
+		segments[3][0] = vertices[2][0];
+		segments[3][1] = vertices[2][1]+   bufD;
+		segments[3][2] = vertices[3][0];
+		segments[3][3] = vertices[3][1]+   bufD;
+	}   
 }
 
