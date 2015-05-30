@@ -9,22 +9,36 @@
 \begin{document}
 \maketitle
 \section{Libraries}
-If you were using eclipse this term, chances are that lwjgl and other libraries are not installed on your computer. This program uses the slick util library and lwjgl. To install the libraries library, go to the following websites.\\
+If you were using eclipse this term, chances are that lwjgl and other libraries are not installed on your computer. This program uses the slick util library and lwjgl. First, download the libraries from the following links\\
+\url{http://sourceforge.net/projects/java-game-lib/files/Official%20Releases/LWJGL%202.9.3/lwjgl-2.9.3.zip/download}
+\\
 \url{http://slick.ninjacave.com/slick-util/}\\
-\url{http://www.lwjgl.org/download}\\
 
-Drag the jar files and the OS X natives into the \texttt{Library/Java/Extensions} folder on a Mac.
+Drag the jar files and the OS X natives into the \texttt{Library/Java/Extensions} folder on a Mac. (Tip: Use COMMAND+SHIFT+H in finder to navigate to the hidden folders). Below is a list of things which need to be moved to this folder.
+\begin{list_type}
 
-More info can be found at\\
+  \item All Jar Files from lwjgl.2.9.3
+  \item All Natives from lwjgl.2.9.3
+  \item All Jar files from Slick-util\ldots
+
+\end{list_type}
+
+
+\\More info can be found at\\
 \url{http://wiki.lwjgl.org/index.php?title=Downloading_and_Setting_Up_LWJGL}
 
 \section{Running from the Jar file}
-If you have successfully installed the library, then move the new jar file inside the same folder as the assets folder, and run.
+If you have successfully installed the library, then you can run the program using a jar file. The jar file provided does not work. Download a new jar file from this file sharing link: \url{http://dropjar.com/#1i5gkeaz}. Make sure the jar is in the same folder as the assets folder, and run.
 
 \section{Running from Terminal}
-Navigate to the \texttt{src} folder in terminal using the \texttt{cd} command, and then dragging in the \texttt{src} folder.
+Unfortunately, there is an error in the code you were sent. Change line 284 of GameStateManager.java
+from \texttt{GL11.glPopMatrix();} to 
 \begin{verbatim}
-cd /path/to/dir/3d/src 
+GL11.glPushMatrix();
+\end{verbatim}
+Navigate to the folder containing all the files in terminal using the \texttt{cd} command, and then dragging in the folder.
+\begin{verbatim}
+cd /path/to/dir/Maze\ Design\ Project
 \end{verbatim} 
 Compile the code.
 \begin{verbatim}
