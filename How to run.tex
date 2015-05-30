@@ -1,0 +1,33 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+
+
+\title{How to Run}
+\author{Austin Lowell, Stuart Rucker, Oscar Suen}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section{Libraries}
+This program uses the slick util library and lwjgl. To install the slick util library, go to the following website.\\
+\href{http://slick.ninjacave.com/slick-util/}{http://slick.ninjacave.com/slick-util/}\\
+\href{http://www.lwjgl.org/download}{http://www.lwjgl.org/download}\\
+http://www.lwjgl.org/download
+Drag the jar file into the Library/java/Extensions folder on mac.
+\section{Running from terminal}
+Navigate to the src folder in terminal using the "cd" command, and then dragging in the src folder.
+\begin{lstlisting}
+cd /Users/Stuart/Desktop/3d/src 
+\end{lstlisting} 
+Compile the code.
+\begin{lstlisting}
+javac *.java
+\end{lstlisting} 
+And then run the program (WalkAround.java is the main class)
+\begin{lstlisting}
+java WalkAround
+\end{lstlisting} 
+
+\end{document}
